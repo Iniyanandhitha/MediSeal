@@ -12,7 +12,7 @@ export const BackgroundBeams = () => {
       {beams.map((beam) => (
         <motion.div
           key={beam}
-          className="absolute h-full w-px bg-gradient-to-b from-transparent via-blue-500 to-transparent opacity-20"
+          className="absolute h-full w-px bg-gradient-to-b from-transparent via-scooter-400 to-transparent opacity-20"
           style={{
             left: `${(beam + 1) * 12.5}%`,
           }}

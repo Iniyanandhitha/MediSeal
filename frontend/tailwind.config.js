@@ -17,6 +17,12 @@ module.exports = {
     },
     extend: {
       colors: {
+        'scooter': {
+          '50': '#dcf5ff',
+          '100': '#17badb',
+          '400': '#06596a',
+          '700': '#001319',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

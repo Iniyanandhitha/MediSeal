@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MediSeal - Pharmaceutical Supply Chain Management",
   description: "Blockchain-based pharmaceutical supply chain tracking and verification system",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

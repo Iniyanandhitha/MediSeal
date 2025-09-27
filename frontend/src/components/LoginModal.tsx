@@ -34,7 +34,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     manufacturer: {
       icon: Factory,
       label: 'Manufacturer',
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-scooter-400 to-scooter-700',
       description: 'Drug manufacturing companies',
       identifierLabel: 'Manufacturer License ID',
       placeholder: 'e.g., MFR-001',
@@ -43,7 +43,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     distributor: {
       icon: Truck,
       label: 'Distributor',
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-scooter-100 to-scooter-400',
       description: 'Supply chain distributors',
       identifierLabel: 'Distributor License ID',
       placeholder: 'e.g., DIST-001',
@@ -52,7 +52,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     laboratory: {
       icon: FlaskConical,
       label: 'Laboratory',
-      color: 'from-cyan-500 to-teal-500',
+      color: 'from-scooter-50 to-scooter-100',
       description: 'Quality testing laboratories',
       identifierLabel: 'Laboratory License ID',
       placeholder: 'e.g., LAB-001',
@@ -61,7 +61,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     pharmacy: {
       icon: Store,
       label: 'Pharmacy',
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-scooter-400 to-scooter-700',
       description: 'Retail pharmacies',
       identifierLabel: 'Pharmacy License ID',
       placeholder: 'e.g., PHARM-001',
@@ -225,7 +225,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 <Button
                   onClick={handleRoleLogin}
                   disabled={isLoading || !identifier.trim()}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                  className="w-full bg-gradient-to-r from-scooter-400 to-scooter-700 hover:from-scooter-400 hover:to-scooter-700"
                 >
                   {isLoading ? (
                     <>

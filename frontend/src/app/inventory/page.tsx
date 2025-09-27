@@ -148,7 +148,7 @@ const InventoryPage = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-6 pb-4">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-scooter-400 via-scooter-100 to-scooter-700 bg-clip-text text-transparent mb-6 pb-4">
             Inventory Management
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -304,7 +304,7 @@ const InventoryPage = () => {
                           <p className="text-xs text-gray-400">of {item.quantity.toLocaleString()}</p>
                           <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
                             <div
-                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                              className="bg-gradient-to-r from-scooter-400 to-scooter-700 h-2 rounded-full"
                               style={{ width: `${(item.remaining / item.quantity) * 100}%` }}
                             ></div>
                           </div>

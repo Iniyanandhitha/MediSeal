@@ -28,41 +28,41 @@ export const UserStatusCard: React.FC = () => {
         return {
           icon: Factory,
           label: 'Manufacturer',
-          color: 'from-blue-500 to-cyan-500',
-          bgColor: 'bg-blue-500/10',
-          textColor: 'text-blue-400'
+          color: 'from-scooter-400 to-scooter-700',
+          bgColor: 'bg-scooter-400/10',
+          textColor: 'text-scooter-400'
         };
       case 'distributor':
         return {
           icon: Truck,
           label: 'Distributor',
-          color: 'from-purple-500 to-pink-500',
-          bgColor: 'bg-purple-500/10',
-          textColor: 'text-purple-400'
+          color: 'from-scooter-100 to-scooter-400',
+          bgColor: 'bg-scooter-100/10',
+          textColor: 'text-scooter-100'
         };
       case 'pharmacy':
         return {
           icon: Store,
           label: 'Pharmacy',
-          color: 'from-green-500 to-emerald-500',
-          bgColor: 'bg-green-500/10',
-          textColor: 'text-green-400'
+          color: 'from-scooter-50 to-scooter-100',
+          bgColor: 'bg-scooter-50/10',
+          textColor: 'text-scooter-50'
         };
       case 'consumer':
         return {
           icon: Shield,
           label: 'Consumer',
-          color: 'from-orange-500 to-red-500',
-          bgColor: 'bg-orange-500/10',
-          textColor: 'text-orange-400'
+          color: 'from-scooter-400 to-scooter-700',
+          bgColor: 'bg-scooter-400/10',
+          textColor: 'text-scooter-400'
         };
       default:
         return {
           icon: User,
           label: 'User',
-          color: 'from-gray-500 to-gray-600',
-          bgColor: 'bg-gray-500/10',
-          textColor: 'text-gray-400'
+          color: 'from-scooter-700 to-scooter-400',
+          bgColor: 'bg-scooter-700/10',
+          textColor: 'text-scooter-700'
         };
     }
   };

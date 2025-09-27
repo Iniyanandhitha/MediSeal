@@ -34,12 +34,12 @@ export const HoverCard = ({ children, className }: HoverCardProps) => {
         `}
       >
         {/* Animated border gradient */}
-        <div className="absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-scooter-400 via-scooter-100 to-scooter-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className="h-full w-full rounded-lg bg-slate-900" />
         </div>
         
         {/* Glow effect */}
-        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-scooter-400/20 via-scooter-100/20 to-scooter-700/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
         
         {/* Content */}
         <div className="relative z-10 h-full">

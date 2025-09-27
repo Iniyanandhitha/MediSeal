@@ -64,7 +64,7 @@ const MintPage = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 pb-4">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-scooter-400 via-scooter-100 to-scooter-700 bg-clip-text text-transparent mb-4 pb-4">
             Mint New Batch
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -81,7 +81,7 @@ const MintPage = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-center space-x-3 mb-8">
-                <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                <div className="p-3 bg-gradient-to-r from-scooter-400 to-scooter-700 rounded-lg">
                   <Package className="h-6 w-6 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-white">Batch Information</h2>
@@ -198,7 +198,7 @@ const MintPage = () => {
                       type="file"
                       multiple
                       onChange={handleFileUpload}
-                      className="bg-gray-900/50 border-gray-700 text-white file:bg-blue-500 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2"
+                      className="bg-gray-900/50 border-gray-700 text-white file:bg-blue-500 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 pb-4"
                     />
                   </div>
                   {files.length > 0 && (
@@ -213,7 +213,7 @@ const MintPage = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-medium py-3 text-lg"
+                  className="w-full bg-gradient-to-r from-scooter-400 to-scooter-700 hover:from-scooter-400 hover:to-scooter-700 text-white font-medium py-3 text-lg"
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Mint Batch
@@ -231,7 +231,7 @@ const MintPage = () => {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
+                  <div className="p-3 bg-gradient-to-r from-scooter-50 to-scooter-400 rounded-lg">
                     <FileText className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white">Batch Preview</h3>
@@ -266,7 +266,7 @@ const MintPage = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                  <div className="p-3 bg-gradient-to-r from-scooter-100 to-scooter-400 rounded-lg">
                     <User className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white">Minting Guidelines</h3>

@@ -40,28 +40,28 @@ const statsCards = [
     value: "1,247",
     change: "+12.5%",
     icon: Package,
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-500 to-blue-700",
   },
   {
     title: "Active Transfers",
     value: "87",
     change: "+4.2%",
     icon: Truck,
-    color: "from-purple-500 to-pink-500",
+    color: "from-green-500 to-green-700",
   },
   {
     title: "Verified Stakeholders",
     value: "342",
     change: "+8.1%",
     icon: Users,
-    color: "from-green-500 to-emerald-500",
+    color: "from-purple-500 to-purple-700",
   },
   {
     title: "Security Score",
     value: "98.7%",
     change: "+0.3%",
     icon: Shield,
-    color: "from-orange-500 to-red-500",
+    color: "from-red-500 to-red-700",
   },
 ];
 
@@ -175,13 +175,13 @@ export default function Dashboard() {
                   </Link>
 
                   <div className="hidden md:flex items-center justify-center">
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
                   </div>
 
                   <Link href="/inventory" className="group">
-                    <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border border-purple-500/20 rounded-lg hover:border-purple-400/40 transition-all duration-300 text-center">
-                      <div className="p-3 bg-purple-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Package className="h-6 w-6 text-purple-400" />
+                    <div className="p-4 bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/20 rounded-lg hover:border-cyan-400/40 transition-all duration-300 text-center">
+                      <div className="p-3 bg-cyan-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Package className="h-6 w-6 text-cyan-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">2. Inventory</h3>
                       <p className="text-xs text-gray-400">Warehouse Storage</p>
@@ -189,7 +189,7 @@ export default function Dashboard() {
                   </Link>
 
                   <div className="hidden md:flex items-center justify-center">
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-purple-500 to-green-500"></div>
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-green-500"></div>
                   </div>
 
                   <Link href="/transfer" className="group">
@@ -215,9 +215,9 @@ export default function Dashboard() {
                   </Link>
 
                   <Link href="/verify" className="group">
-                    <div className="p-4 bg-gradient-to-br from-red-500/10 to-pink-600/10 border border-red-500/20 rounded-lg hover:border-red-400/40 transition-all duration-300 text-center">
-                      <div className="p-3 bg-red-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Shield className="h-6 w-6 text-red-400" />
+                    <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border border-purple-500/20 rounded-lg hover:border-purple-400/40 transition-all duration-300 text-center">
+                      <div className="p-3 bg-purple-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Shield className="h-6 w-6 text-purple-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">5. Consumer/Verify</h3>
                       <p className="text-xs text-gray-400">End Consumer Authentication</p>
@@ -243,7 +243,7 @@ export default function Dashboard() {
                       <BarChart3 className="h-5 w-5" />
                       Quick Actions
                     </CardTitle>
-                    <CardDescription className="text-gray-400">
+                    <CardDescription className="text-gray-400 pb-4">
                       Common pharmaceutical supply chain operations
                     </CardDescription>
                   </CardHeader>

@@ -87,7 +87,7 @@ export const FloatingNav = ({
                 : "Login"
               }
             </span>
-            <div className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+            <div className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-scooter-400 to-transparent h-px" />
           </Button>
         </motion.div>
       </motion.div>

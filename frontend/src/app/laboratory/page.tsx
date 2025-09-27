@@ -100,7 +100,7 @@ const LaboratoryPage: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <button
               onClick={() => setSelectedBatch(null)}
-              className="mb-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+              className="mb-6 px-6 py-3 bg-gradient-to-r from-scooter-400 to-scooter-700 text-white rounded-lg hover:from-scooter-400 hover:to-scooter-700 transition-all duration-300"
             >
               ← Back to Batch List
             </button>
@@ -200,7 +200,7 @@ const LaboratoryPage: React.FC = () => {
                   <button
                     onClick={handleSearch}
                     disabled={isLoading}
-                    className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-600 hover:to-blue-600 disabled:opacity-50 flex items-center transition-all duration-300"
+                    className="px-6 py-3 bg-gradient-to-r from-scooter-100 to-scooter-400 text-white rounded-lg hover:from-scooter-100 hover:to-scooter-400 disabled:opacity-50 flex items-center transition-all duration-300"
                   >
                     <Search className="h-4 w-4 mr-2" />
                     {isLoading ? 'Searching...' : 'Search'}
@@ -276,7 +276,7 @@ const LaboratoryPage: React.FC = () => {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => setSelectedBatch(batch)}
-                              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 flex items-center"
+                              className="px-6 py-3 bg-gradient-to-r from-scooter-100 to-scooter-400 text-white rounded-lg hover:from-scooter-100 hover:to-scooter-400 transition-all duration-300 flex items-center"
                             >
                               <TestTube className="h-4 w-4 mr-2" />
                               Test Batch

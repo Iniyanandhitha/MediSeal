@@ -168,7 +168,7 @@ const VerifyPage = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 pb-4">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-scooter-400 via-scooter-100 to-scooter-700 bg-clip-text text-transparent mb-4 pb-4">
             Drug Verification
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -185,7 +185,7 @@ const VerifyPage = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-center space-x-3 mb-8">
-                <div className="p-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
+                <div className="p-3 bg-gradient-to-r from-scooter-50 to-scooter-400 rounded-lg">
                   <Shield className="h-6 w-6 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-white">Verify Product</h2>
@@ -217,7 +217,7 @@ const VerifyPage = () => {
                 <Button
                   onClick={handleVerification}
                   disabled={isLoading || !verificationId.trim()}
-                  className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold py-3 text-lg disabled:opacity-30 shadow-lg"
+                  className="w-full bg-gradient-to-r from-scooter-50 to-scooter-400 hover:from-scooter-50 hover:to-scooter-400 text-white font-bold py-3 text-lg disabled:opacity-30 shadow-lg"
                 >
                   {isLoading ? (
                     <>
@@ -262,7 +262,7 @@ const VerifyPage = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="flex items-center space-x-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                <div className="p-3 bg-gradient-to-r from-scooter-100 to-scooter-400 rounded-lg">
                   <FileText className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-white">How to Verify</h3>
@@ -323,7 +323,7 @@ const VerifyPage = () => {
           >
             <HoverCard className="p-8">
               <div className="flex items-center space-x-3 mb-8">
-                <div className={`p-3 rounded-lg ${verificationResult.isValid ? 'bg-gradient-to-r from-green-500 to-blue-500' : 'bg-gradient-to-r from-red-500 to-orange-500'}`}>
+                <div className={`p-3 rounded-lg ${verificationResult.isValid ? 'bg-gradient-to-r from-scooter-50 to-scooter-400' : 'bg-gradient-to-r from-scooter-700 to-scooter-400'}`}>
                   {verificationResult.isValid ? (
                     <CheckCircle className="h-6 w-6 text-white" />
                   ) : (
@@ -465,7 +465,7 @@ const VerifyPage = () => {
         >
           <HoverCard className="p-8">
             <div className="flex items-center space-x-3 mb-8">
-              <div className="p-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg">
+              <div className="p-3 bg-gradient-to-r from-scooter-400 to-scooter-700 rounded-lg">
                 <Hash className="h-6 w-6 text-white" />
               </div>
                         <h2 className="text-2xl font-bold mb-6 text-white">Recent Verifications</h2>

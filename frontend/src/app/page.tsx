@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { WavyBackground } from "@/components/ui/wavy-background";
+import { Vortex } from "@/components/ui/vortex";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Shield, Package, Zap, Eye } from "lucide-react";
@@ -32,10 +32,10 @@ const HomePage = () => {
   ];
 
   return (
-    <WavyBackground 
-      className="w-full"
-      containerClassName="min-h-screen flex flex-col items-center justify-center"
-    >
+    <Vortex
+      backgroundColor="black"
+      containerClassName="min-h-screen"
+      className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full">
       <div className="relative z-20 flex flex-col items-center justify-center w-full px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -43,7 +43,7 @@ const HomePage = () => {
           transition={{ duration: 1 }}
           className="text-center max-w-6xl mx-auto mb-8"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6">
             MediSeal
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
@@ -58,7 +58,7 @@ const HomePage = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
           >
             <Link href="/dashboard">
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-medium px-8 py-4 text-lg">
+              <Button className="bg-gradient-to-r from-[hsl(270,100%,50%)] via-[hsl(300,100%,55%)] to-[hsl(330,100%,60%)] hover:from-[hsl(270,100%,55%)] hover:via-[hsl(300,100%,60%)] hover:to-[hsl(330,100%,65%)] text-white font-medium px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300">
                 Launch Dashboard
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -106,7 +106,7 @@ const HomePage = () => {
           </p>
         </motion.div>
       </div>
-    </WavyBackground>
+    </Vortex>
   );
 };
 

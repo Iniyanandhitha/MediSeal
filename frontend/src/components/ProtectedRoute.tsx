@@ -44,7 +44,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               </p>
               <Button
                 onClick={onLoginRequired}
-                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                className="bg-gradient-to-r from-scooter-400 to-scooter-700 hover:from-scooter-400 hover:to-scooter-700"
               >
                 <Shield className="h-4 w-4 mr-2" />
                 Login to Continue

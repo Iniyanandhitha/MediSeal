@@ -126,13 +126,13 @@ const TransferPage = () => {
   const getProgressColor = (status: string) => {
     switch (status) {
       case "delivered":
-        return "from-green-500 to-green-600";
+        return "from-scooter-50 to-scooter-100";
       case "in_transit":
-        return "from-blue-500 to-purple-500";
+        return "from-scooter-100 to-scooter-400";
       case "pending":
-        return "from-yellow-500 to-orange-500";
+        return "from-scooter-400 to-scooter-700";
       default:
-        return "from-gray-500 to-gray-600";
+        return "from-scooter-700 to-scooter-400";
     }
   };
 
@@ -148,7 +148,7 @@ const TransferPage = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4 pb-4">
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-scooter-400 via-scooter-100 to-scooter-700 bg-clip-text text-transparent mb-4 pb-4">
             Transfer Management
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -165,7 +165,7 @@ const TransferPage = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-center space-x-3 mb-8">
-                <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                <div className="p-3 bg-gradient-to-r from-scooter-100 to-scooter-400 rounded-lg">
                   <Send className="h-6 w-6 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold text-white">Initiate Transfer</h2>
@@ -235,7 +235,7 @@ const TransferPage = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 text-lg"
+                  className="w-full bg-gradient-to-r from-scooter-100 to-scooter-400 hover:from-scooter-100 hover:to-scooter-400 text-white font-medium py-3 text-lg"
                 >
                   <Send className="h-5 w-5 mr-2" />
                   Initiate Transfer
@@ -253,7 +253,7 @@ const TransferPage = () => {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                  <div className="p-3 bg-gradient-to-r from-scooter-400 to-scooter-700 rounded-lg">
                     <Zap className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white">Transfer Statistics</h3>
@@ -287,7 +287,7 @@ const TransferPage = () => {
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="p-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg">
+                  <div className="p-3 bg-gradient-to-r from-scooter-50 to-scooter-400 rounded-lg">
                     <Shield className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white">Security Features</h3>
@@ -324,7 +324,7 @@ const TransferPage = () => {
         >
           <HoverCard className="p-8">
             <div className="flex items-center space-x-3 mb-8">
-              <div className="p-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg">
+              <div className="p-3 bg-gradient-to-r from-scooter-400 to-scooter-700 rounded-lg">
                 <Clock className="h-6 w-6 text-white" />
               </div>
               <h2 className="text-2xl font-bold text-white">Active Transfers</h2>
