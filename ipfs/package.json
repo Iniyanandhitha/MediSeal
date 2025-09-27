@@ -1,0 +1,42 @@
+{
+  "name": "pharmachain-ipfs",
+  "version": "1.0.0",
+  "description": "IPFS integration for PharmaChain - decentralized storage for pharmaceutical packaging images and batch metadata",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "node test/ipfs-test-clean.js",
+    "test:legacy": "node test/ipfs-test.js",
+    "lint": "eslint src/ test/ --fix",
+    "format": "prettier --write src/ test/",
+    "clean": "rm -rf logs/*.log node_modules/.cache",
+    "health": "curl -f http://localhost:3001/health || exit 1"
+  },
+  "keywords": ["ipfs", "pharmaceutical", "supply-chain", "decentralized-storage", "helia", "blockchain"],
+  "author": "PharmaChain Team",
+  "license": "MIT",
+  "dependencies": {
+    "helia": "^5.5.1",
+    "@helia/unixfs": "^5.1.0",
+    "@helia/verified-fetch": "^3.2.3",
+    "@helia/dag-cbor": "^4.1.0",
+    "multiformats": "^13.1.0",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "winston": "^3.11.0",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

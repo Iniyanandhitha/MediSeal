@@ -1,0 +1,10 @@
+{
+  "sepolia": {
+    "network": "sepolia",
+    "contractAddress": "0x3de03AB80fdDDa888598303FF34E496bD29E140F",
+    "deployerAddress": "0x2962B9266a48E8F83c583caD27Be093f231781b8",
+    "deploymentTime": "2025-09-21T14:49:25.217Z",
+    "transactionHash": "0x51468e5bbb23bc2fad4669676160e74d352761b8729b8ef3762f423a10e461f0",
+    "blockNumber": null
+  }
+}
