@@ -1,6 +1,6 @@
-# PharmaChain IPFS Integration
+# MediSeal IPFS Integration
 
-This module provides decentralized storage capabilities for the PharmaChain system using IPFS (InterPlanetary File System) and the Helia SDK.
+This module provides decentralized storage capabilities for the MediSeal system using IPFS (InterPlanetary File System) and the Helia SDK.
 
 ## Features
 
@@ -9,7 +9,7 @@ This module provides decentralized storage capabilities for the PharmaChain syst
 - **Content Addressing**: Cryptographic hashes ensure data integrity and immutable references
 - **Pinning Service**: Ensure important content remains available on the network
 - **Multi-format Support**: Handle images, documents, and structured metadata
-- **REST API**: Complete HTTP API for integration with other PharmaChain modules
+- **REST API**: Complete HTTP API for integration with other MediSeal modules
 
 ### 📦 File Types Supported
 - **Packaging Images**: JPEG, PNG, GIF format pharmaceutical package photos
@@ -110,14 +110,14 @@ curl http://localhost:3001/retrieve/file/bafkreiezvaltuqlz6m65f6zcphtkaj66wfeibv
 curl http://localhost:3001/retrieve/metadata/bafyreiblefkpgclsjmkyk2sfudlmlvrnoumnepei3vrkrd2cayx6kr7y6y
 ```
 
-## Integration with PharmaChain
+## Integration with MediSeal
 
 ### Blockchain Integration
 
 ```javascript
 // Store IPFS hash in smart contract
 const ipfsHash = "bafkreiezvaltuqlz6m65f6zcphtkaj66wfeibvpuwmzbyqifxshne6djem"
-await pharmaChainContract.mintBatch(
+await mediSealContract.mintBatch(
   batchNumber,
   manufacturer,
   ipfsHash,  // Store IPFS CID in blockchain
@@ -158,7 +158,7 @@ ipfs/
 
 ## Key Classes
 
-### PharmaChainIPFS
+### MediSealIPFS
 Core IPFS management class with methods:
 - `initialize()` - Start IPFS node
 - `uploadPackagingImage()` - Store package photos
@@ -266,7 +266,7 @@ The system includes comprehensive error handling:
 1. Follow the existing code style and patterns
 2. Add comprehensive tests for new features
 3. Update documentation for API changes
-4. Test integration with other PharmaChain modules
+4. Test integration with other MediSeal modules
 
 ## License
 

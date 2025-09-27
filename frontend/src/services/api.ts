@@ -1,4 +1,4 @@
-// PharmaChain API Client
+// MediSeal API Client
 // This service handles all API communications between the frontend and backend
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002'

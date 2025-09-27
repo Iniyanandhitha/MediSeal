@@ -2,14 +2,14 @@ import IPFSServer from './server.js'
 import logger from './utils/logger.js'
 
 /**
- * PharmaChain IPFS Entry Point
+ * MediSeal IPFS Entry Point
  * Main entry point for IPFS integration module
  */
 
 const PORT = process.env.PORT || 3001
 
 async function main() {
-  logger.info('🚀 Starting PharmaChain IPFS Integration...')
+  logger.info('🚀 Starting MediSeal IPFS Integration...')
   
   try {
     // Create and start IPFS server
@@ -18,7 +18,7 @@ async function main() {
     
     await server.start()
     
-    logger.info('✅ PharmaChain IPFS Integration Started Successfully!', {
+    logger.info('✅ MediSeal IPFS Integration Started Successfully!', {
       port: PORT,
       environment: process.env.NODE_ENV || 'development',
       pid: process.pid
@@ -43,7 +43,7 @@ async function main() {
     })
     
   } catch (error) {
-    logger.error('❌ Failed to start PharmaChain IPFS:', { error: error.message, stack: error.stack })
+    logger.error('❌ Failed to start MediSeal IPFS:', { error: error.message, stack: error.stack })
     process.exit(1)
   }
 }

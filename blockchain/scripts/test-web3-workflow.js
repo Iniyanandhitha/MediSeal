@@ -4,8 +4,8 @@ async function main() {
   console.log("🚀 Testing Full Web3 Pharmaceutical Workflow...");
 
   const contractAddress = "0x7912D2524bA63611430cf5461Fab62Fe56C3265E";
-  const PharmaChain = await hre.ethers.getContractFactory("PharmaChainOptimized");
-  const pharmaChain = PharmaChain.attach(contractAddress);
+  const MediSeal = await hre.ethers.getContractFactory("MediSealOptimized");
+  const mediSeal = MediSeal.attach(contractAddress);
   
   const [deployer] = await hre.ethers.getSigners();
   console.log("Account:", deployer.address);
@@ -37,7 +37,7 @@ async function main() {
       const batch = batches[i];
       console.log(`\n   Minting batch: ${batch.name}`);
       
-      const tx = await pharmaChain.mintBatch(
+      const tx = await mediSeal.mintBatch(
         batch.batchHash,
         batch.expiryDate,
         batch.quantity,
@@ -73,7 +73,7 @@ async function main() {
       console.log(`\n   Testing batch ${tokenId}:`);
       
       // Get batch info
-      const batchInfo = await pharmaChain.getBatchInfo(tokenId);
+      const batchInfo = await mediSeal.getBatchInfo(tokenId);
       console.log(`   📋 Batch Status: ${batchInfo.status} (0=MANUFACTURED, 1=TESTED)`);
       console.log(`   📅 Manufacturing Date: ${new Date(Number(batchInfo.manufacturingDate) * 1000).toLocaleDateString()}`);
       console.log(`   📦 Quantity: ${batchInfo.quantity}`);
@@ -84,7 +84,7 @@ async function main() {
       // Note: In real scenario, this would be called by the laboratory's wallet
       // For demo, we're calling it from the owner account
       try {
-        const testTx = await pharmaChain.submitTestResult(
+        const testTx = await mediSeal.submitTestResult(
           tokenId,
           true, // Test passed
           {
@@ -98,11 +98,11 @@ async function main() {
         console.log(`   ✅ Test result submitted! Gas used: ${testReceipt.gasUsed.toString()}`);
         
         // Get updated batch info
-        const updatedBatchInfo = await pharmaChain.getBatchInfo(tokenId);
+        const updatedBatchInfo = await mediSeal.getBatchInfo(tokenId);
         console.log(`   📊 Updated Status: ${updatedBatchInfo.status} (should be 1=TESTED)`);
         
         // Get test results
-        const testResults = await pharmaChain.getLabTestResults(tokenId);
+        const testResults = await mediSeal.getLabTestResults(tokenId);
         console.log(`   🏥 Labs tested: ${testResults.labs.length}`);
         console.log(`   ✅ Test results: ${testResults.results}`);
         
@@ -121,7 +121,7 @@ async function main() {
       
       console.log(`\n   Verifying batch ${batch.name}:`);
       
-      const verification = await pharmaChain.verifyByQRHash(batch.qrHash);
+      const verification = await mediSeal.verifyByQRHash(batch.qrHash);
       console.log(`   ✅ QR Valid: ${verification.isValid}`);
       console.log(`   🏷️  Token ID: ${verification.tokenId}`);
       console.log(`   📊 Status: ${verification.status}`);
@@ -131,12 +131,12 @@ async function main() {
     // Step 4: Display Web3 metrics
     console.log("\n📊 Step 4: Web3 System Metrics...");
     
-    const totalBatches = await pharmaChain.getTotalBatches();
+    const totalBatches = await mediSeal.getTotalBatches();
     console.log(`   📦 Total Batches: ${totalBatches}`);
     
     // Check stakeholder registrations
-    const manufacturerInfo = await pharmaChain.getStakeholder(deployer.address);
-    const labInfo = await pharmaChain.getStakeholder(labAddress);
+    const manufacturerInfo = await mediSeal.getStakeholder(deployer.address);
+    const labInfo = await mediSeal.getStakeholder(labAddress);
     
     console.log(`   👤 Manufacturer Verified: ${manufacturerInfo.isVerified} (Role: ${manufacturerInfo.role})`);
     console.log(`   🏥 Laboratory Verified: ${labInfo.isVerified} (Role: ${labInfo.role})`);
@@ -151,7 +151,7 @@ async function main() {
     console.log("✅ Laboratory testing workflow: READY");
     console.log("✅ QR verification: SUCCESS");
     console.log("✅ Blockchain analytics: READY");
-    console.log("\n🚀 PharmaChain is now a full Web3 pharmaceutical supply chain!");
+    console.log("\n🚀 mediSeal is now a full Web3 pharmaceutical supply chain!");
     
     console.log("\n📱 Frontend URLs:");
     console.log("   • Dashboard: http://localhost:3000/dashboard");

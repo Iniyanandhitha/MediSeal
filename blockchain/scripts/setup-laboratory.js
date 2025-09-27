@@ -5,8 +5,8 @@ async function main() {
 
   // Get the contract factory
   const contractAddress = "0x7912D2524bA63611430cf5461Fab62Fe56C3265E";
-  const PharmaChain = await hre.ethers.getContractFactory("PharmaChainOptimized");
-  const pharmaChain = PharmaChain.attach(contractAddress);
+  const MediSeal = await hre.ethers.getContractFactory("MediSealOptimized");
+  const mediSeal = MediSeal.attach(contractAddress);
   
   const [deployer] = await hre.ethers.getSigners();
   console.log("Owner account:", deployer.address);
@@ -17,7 +17,7 @@ async function main() {
   try {
     // Check if laboratory is already registered
     console.log("\n📋 Checking current laboratory status...");
-    const labInfo = await pharmaChain.getStakeholder(labAddress);
+    const labInfo = await mediSeal.getStakeholder(labAddress);
     
     if (labInfo.isVerified && labInfo.role === 5) {
       console.log("✅ Laboratory is already registered!");
@@ -31,7 +31,7 @@ async function main() {
       console.log("❌ Laboratory not registered. Registering now...");
       
       // Register laboratory stakeholder
-      const tx = await pharmaChain.registerStakeholder(
+      const tx = await mediSeal.registerStakeholder(
         labAddress,
         5, // LABORATORY role
         {
@@ -47,7 +47,7 @@ async function main() {
       console.log(`   Block: ${receipt.blockNumber}`);
       
       // Verify registration
-      const verifyLabInfo = await pharmaChain.getStakeholder(labAddress);
+      const verifyLabInfo = await mediSeal.getStakeholder(labAddress);
       console.log("\n🔍 Verification:");
       console.log(`   Role: ${verifyLabInfo.role} (should be 5 for LABORATORY)`);
       console.log(`   Verified: ${verifyLabInfo.isVerified}`);
@@ -57,13 +57,13 @@ async function main() {
     console.log("\n🧪 Testing laboratory functionality...");
     
     // Check if we have any batches to test
-    const totalBatches = await pharmaChain.getTotalBatches();
+    const totalBatches = await mediSeal.getTotalBatches();
     console.log(`   Total batches in system: ${totalBatches}`);
     
     if (totalBatches > 0) {
       console.log("\n   Testing getLabTestResults for batch 0...");
       try {
-        const testResults = await pharmaChain.getLabTestResults(0);
+        const testResults = await mediSeal.getLabTestResults(0);
         console.log(`   Lab test results: ${testResults.labs.length} labs have tested this batch`);
         console.log(`   Results: ${testResults.results}`);
       } catch (error) {

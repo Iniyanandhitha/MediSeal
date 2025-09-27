@@ -23,12 +23,12 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'PharmaChain API',
+      title: 'MediSeal API',
       version: '1.0.0',
       description: 'Pharmaceutical Supply Chain Management API with Blockchain Integration',
       contact: {
-        name: 'PharmaChain Team',
-        email: 'support@pharmachain.com'
+        name: 'MediSeal Team',
+        email: 'support@mediseal.com'
       },
       license: {
         name: 'MIT',
@@ -38,7 +38,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `http://localhost:${config.server?.port || config.port || 3002}`,
-        description: 'PharmaChain API Server'
+        description: 'MediSeal API Server'
       }
     ],
     components: {
@@ -187,7 +187,7 @@ app.use(requestLogger)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, {
   explorer: true,
   customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'PharmaChain API Documentation'
+  customSiteTitle: 'MediSeal API Documentation'
 }))
 
 // Root endpoint
@@ -195,14 +195,14 @@ app.get('/', (req, res) => {
   res.json({
     success: true,
     data: {
-      name: 'PharmaChain API',
+      name: 'MediSeal API',
       version: '1.0.0',
       description: 'Pharmaceutical Supply Chain Management with Blockchain',
       documentation: '/api-docs',
       health: '/api/health',
       timestamp: new Date().toISOString()
     },
-    message: 'Welcome to PharmaChain API'
+    message: 'Welcome to MediSeal API'
   })
 })
 
@@ -306,7 +306,7 @@ async function startServer() {
     
     // Start listening
     const server = app.listen(config.port, 'localhost', () => {
-      logger.info(`🚀 PharmaChain API Server running`, {
+      logger.info(`🚀 MediSeal API Server running`, {
         port: config.port,
         host: 'localhost',
         env: config.nodeEnv,

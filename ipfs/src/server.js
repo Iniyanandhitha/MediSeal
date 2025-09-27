@@ -2,21 +2,21 @@ import express from 'express'
 import multer from 'multer'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import PharmaChainIPFS from './ipfs-manager.js'
+import MediSealIPFS from './ipfs-manager.js'
 import { promises as fs } from 'fs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
- * IPFS API Server for PharmaChain
+ * IPFS API Server for MediSeal
  * Provides REST endpoints for IPFS operations
  */
 class IPFSServer {
   constructor(port = 3001) {
     this.app = express()
     this.port = port
-    this.ipfs = new PharmaChainIPFS()
+    this.ipfs = new MediSealIPFS()
     this.setupMiddleware()
     this.setupRoutes()
   }
@@ -82,7 +82,7 @@ class IPFSServer {
     this.app.get('/health', (req, res) => {
       res.json({
         status: 'ok',
-        service: 'PharmaChain IPFS Server',
+        service: 'MediSeal IPFS Server',
         timestamp: new Date().toISOString()
       })
     })
@@ -420,7 +420,7 @@ class IPFSServer {
       await this.ipfs.initialize()
 
       this.server = this.app.listen(this.port, () => {
-        console.log(`🚀 PharmaChain IPFS Server running on port ${this.port}`)
+        console.log(`🚀 MediSeal IPFS Server running on port ${this.port}`)
         console.log(`📋 Health check: http://localhost:${this.port}/health`)
         console.log(`📊 Node status: http://localhost:${this.port}/status`)
         console.log(`📁 API endpoints available at: http://localhost:${this.port}`)

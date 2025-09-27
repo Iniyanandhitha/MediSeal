@@ -126,7 +126,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     // Check for stored authentication on mount
-    const storedUser = localStorage.getItem('pharmachain_user');
+    const storedUser = localStorage.getItem('mediseal_user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -151,7 +151,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             isVerified: true,
           };
           setUser(consumerUser);
-          localStorage.setItem('pharmachain_user', JSON.stringify(consumerUser));
+          localStorage.setItem('mediseal_user', JSON.stringify(consumerUser));
           return true;
         }
         return false;
@@ -162,7 +162,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (roleUsers && credentials.identifier in roleUsers) {
         const foundUser = roleUsers[credentials.identifier as keyof typeof roleUsers];
         setUser(foundUser);
-        localStorage.setItem('pharmachain_user', JSON.stringify(foundUser));
+        localStorage.setItem('mediseal_user', JSON.stringify(foundUser));
         return true;
       }
 
@@ -177,7 +177,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('pharmachain_user');
+    localStorage.removeItem('mediseal_user');
   };
 
   const connectWallet = async (): Promise<boolean> => {
@@ -191,7 +191,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           if (user && user.role !== 'consumer') {
             const updatedUser = { ...user, walletAddress };
             setUser(updatedUser);
-            localStorage.setItem('pharmachain_user', JSON.stringify(updatedUser));
+            localStorage.setItem('mediseal_user', JSON.stringify(updatedUser));
             return true;
           }
           
@@ -204,7 +204,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             isVerified: true,
           };
           setUser(consumerUser);
-          localStorage.setItem('pharmachain_user', JSON.stringify(consumerUser));
+          localStorage.setItem('mediseal_user', JSON.stringify(consumerUser));
           return true;
         }
       }
@@ -223,7 +223,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // If other role, just remove wallet address
       const updatedUser = { ...user, walletAddress: undefined };
       setUser(updatedUser);
-      localStorage.setItem('pharmachain_user', JSON.stringify(updatedUser));
+      localStorage.setItem('mediseal_user', JSON.stringify(updatedUser));
     }
   };
 

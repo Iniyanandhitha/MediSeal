@@ -1,4 +1,4 @@
-import PharmaChainIPFS from '../src/ipfs-manager.js'
+import MediSealIPFS from '../src/ipfs-manager.js'
 import logger from '../src/utils/logger.js'
 import { promises as fs } from 'fs'
 import path from 'path'
@@ -8,18 +8,18 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /**
- * Test suite for PharmaChain IPFS functionality
+ * Test suite for MediSeal IPFS functionality
  * Professional test runner with proper logging and error handling
  */
 class IPFSTestSuite {
   constructor() {
-    this.ipfs = new PharmaChainIPFS()
+    this.ipfs = new MediSealIPFS()
     this.testResults = []
     this.startTime = Date.now()
   }
 
   async runAllTests() {
-    logger.info('🧪 Starting PharmaChain IPFS Test Suite')
+    logger.info('🧪 Starting MediSeal IPFS Test Suite')
 
     try {
       // Core functionality tests

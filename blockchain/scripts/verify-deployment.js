@@ -2,7 +2,7 @@ const { ethers } = require("hardhat");
 require("dotenv").config();
 
 async function verifyDeployment() {
-  console.log("🔍 Verifying PharmaChain deployment...\n");
+  console.log("🔍 Verifying MediSeal deployment...\n");
   
   // Contract details
   const contractAddress = "0x7912D2524bA63611430cf5461Fab62Fe56C3265E";
@@ -14,21 +14,21 @@ async function verifyDeployment() {
   
   try {
     // Connect to the contract
-    const PharmaChain = await ethers.getContractFactory("PharmaChain");
-    const pharmaChain = PharmaChain.attach(contractAddress);
+    const MediSeal = await ethers.getContractFactory("MediSealOptimized");
+    const mediSeal = MediSeal.attach(contractAddress);
     
     // Test basic contract functions
     console.log("✅ Testing contract connectivity...");
     
     // Check contract name and symbol
-    const name = await pharmaChain.name();
-    const symbol = await pharmaChain.symbol();
+    const name = await mediSeal.name();
+    const symbol = await mediSeal.symbol();
     
     console.log(`📛 Contract Name: ${name}`);
     console.log(`🏷️  Contract Symbol: ${symbol}`);
     
     // Check owner
-    const owner = await pharmaChain.owner();
+    const owner = await mediSeal.owner();
     console.log(`� Contract Owner: ${owner}`);
     
     // Get deployer/owner

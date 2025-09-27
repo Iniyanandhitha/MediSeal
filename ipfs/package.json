@@ -1,7 +1,7 @@
 {
-  "name": "pharmachain-ipfs",
+  "name": "mediseal-ipfs",
   "version": "1.0.0",
-  "description": "IPFS integration for PharmaChain - decentralized storage for pharmaceutical packaging images and batch metadata",
+  "description": "IPFS integration for MediSeal - decentralized storage for pharmaceutical packaging images and batch metadata",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "health": "curl -f http://localhost:3001/health || exit 1"
   },
   "keywords": ["ipfs", "pharmaceutical", "supply-chain", "decentralized-storage", "helia", "blockchain"],
-  "author": "PharmaChain Team",
+  "author": "MediSeal Team",
   "license": "MIT",
   "dependencies": {
     "helia": "^5.5.1",

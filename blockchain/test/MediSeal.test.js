@@ -1,8 +1,8 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("PharmaChain", function () {
-  let pharmaChain;
+describe("MediSeal", function () {
+  let mediSeal;
   let owner;
   let manufacturer;
   let distributor;
@@ -14,66 +14,66 @@ describe("PharmaChain", function () {
     [owner, manufacturer, distributor, retailer, consumer] = await ethers.getSigners();
 
     // Deploy the contract
-    const PharmaChain = await ethers.getContractFactory("PharmaChain");
-    pharmaChain = await PharmaChain.deploy();
-    await pharmaChain.waitForDeployment();
+    const MediSeal = await ethers.getContractFactory("MediSealOptimized");
+    mediSeal = await MediSeal.deploy();
+    await mediSeal.waitForDeployment();
   });
 
   describe("Deployment", function () {
     it("Should set the right owner", async function () {
-      expect(await pharmaChain.owner()).to.equal(owner.address);
+      expect(await mediSeal.owner()).to.equal(owner.address);
     });
 
     it("Should have correct name and symbol", async function () {
-      expect(await pharmaChain.name()).to.equal("PharmaChain");
-      expect(await pharmaChain.symbol()).to.equal("PHARMA");
+      expect(await mediSeal.name()).to.equal("MediSealOptimized");
+      expect(await mediSeal.symbol()).to.equal("MEDISEAL");
     });
   });
 
   describe("Stakeholder Registration", function () {
     it("Should register a manufacturer", async function () {
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         manufacturer.address,
         "PharmaCorp",
         "MFG-001",
         0 // MANUFACTURER
       );
 
-      const stakeholder = await pharmaChain.getStakeholder(manufacturer.address);
+      const stakeholder = await mediSeal.getStakeholder(manufacturer.address);
       expect(stakeholder.name).to.equal("PharmaCorp");
       expect(stakeholder.role).to.equal(0);
       expect(stakeholder.isVerified).to.be.true;
     });
 
     it("Should register a distributor", async function () {
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         distributor.address,
         "MedDistributor",
         "DIST-001",
         1 // DISTRIBUTOR
       );
 
-      const stakeholder = await pharmaChain.getStakeholder(distributor.address);
+      const stakeholder = await mediSeal.getStakeholder(distributor.address);
       expect(stakeholder.name).to.equal("MedDistributor");
       expect(stakeholder.role).to.equal(1);
     });
 
     it("Should only allow owner to register stakeholders", async function () {
       await expect(
-        pharmaChain.connect(manufacturer).registerStakeholder(
+        mediSeal.connect(manufacturer).registerStakeholder(
           retailer.address,
           "Pharmacy",
           "RET-001",
           2 // RETAILER
         )
-      ).to.be.revertedWithCustomError(pharmaChain, "OwnableUnauthorizedAccount");
+      ).to.be.revertedWithCustomError(mediSeal, "OwnableUnauthorizedAccount");
     });
   });
 
   describe("Batch Minting", function () {
     beforeEach(async function () {
       // Register manufacturer first
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         manufacturer.address,
         "PharmaCorp",
         "MFG-001",
@@ -85,7 +85,7 @@ describe("PharmaChain", function () {
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60); // 1 year from now
       
       await expect(
-        pharmaChain.connect(manufacturer).mintBatch(
+        mediSeal.connect(manufacturer).mintBatch(
           "Aspirin",
           "BATCH-001",
           expiryDate,
@@ -94,7 +94,7 @@ describe("PharmaChain", function () {
           "QR-HASH-001",
           "https://ipfs.io/ipfs/QmTestHash123"
         )
-      ).to.emit(pharmaChain, "BatchMinted")
+      ).to.emit(mediSeal, "BatchMinted")
        .withArgs(0, "Aspirin", "BATCH-001", manufacturer.address);
     });
 
@@ -102,7 +102,7 @@ describe("PharmaChain", function () {
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
       
       await expect(
-        pharmaChain.connect(distributor).mintBatch(
+        mediSeal.connect(distributor).mintBatch(
           "Aspirin",
           "BATCH-001",
           expiryDate,
@@ -118,7 +118,7 @@ describe("PharmaChain", function () {
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
       
       // First mint
-      await pharmaChain.connect(manufacturer).mintBatch(
+      await mediSeal.connect(manufacturer).mintBatch(
         "Aspirin",
         "BATCH-001",
         expiryDate,
@@ -130,7 +130,7 @@ describe("PharmaChain", function () {
 
       // Second mint with same batch number should fail
       await expect(
-        pharmaChain.connect(manufacturer).mintBatch(
+        mediSeal.connect(manufacturer).mintBatch(
           "Tylenol",
           "BATCH-001",
           expiryDate,
@@ -148,14 +148,14 @@ describe("PharmaChain", function () {
 
     beforeEach(async function () {
       // Register stakeholders
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         manufacturer.address,
         "PharmaCorp",
         "MFG-001",
         0 // MANUFACTURER
       );
       
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         distributor.address,
         "MedDistributor",
         "DIST-001",
@@ -164,7 +164,7 @@ describe("PharmaChain", function () {
 
       // Mint a batch
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
-      await pharmaChain.connect(manufacturer).mintBatch(
+      await mediSeal.connect(manufacturer).mintBatch(
         "Aspirin",
         "BATCH-001",
         expiryDate,
@@ -178,27 +178,27 @@ describe("PharmaChain", function () {
 
     it("Should transfer batch to distributor", async function () {
       await expect(
-        pharmaChain.connect(manufacturer).transferBatch(
+        mediSeal.connect(manufacturer).transferBatch(
           tokenId,
           distributor.address,
           "Warehouse A",
           "Refrigerated transport"
         )
-      ).to.emit(pharmaChain, "BatchTransferred")
+      ).to.emit(mediSeal, "BatchTransferred")
        .withArgs(tokenId, manufacturer.address, distributor.address, "Warehouse A");
 
-      expect(await pharmaChain.ownerOf(tokenId)).to.equal(distributor.address);
+      expect(await mediSeal.ownerOf(tokenId)).to.equal(distributor.address);
     });
 
     it("Should record transfer history", async function () {
-      await pharmaChain.connect(manufacturer).transferBatch(
+      await mediSeal.connect(manufacturer).transferBatch(
         tokenId,
         distributor.address,
         "Warehouse A",
         "Refrigerated transport"
       );
 
-      const history = await pharmaChain.getTransferHistory(tokenId);
+      const history = await mediSeal.getTransferHistory(tokenId);
       expect(history.length).to.equal(1);
       expect(history[0].from).to.equal(manufacturer.address);
       expect(history[0].to).to.equal(distributor.address);
@@ -207,7 +207,7 @@ describe("PharmaChain", function () {
 
     it("Should only allow token owner to transfer", async function () {
       await expect(
-        pharmaChain.connect(distributor).transferBatch(
+        mediSeal.connect(distributor).transferBatch(
           tokenId,
           retailer.address,
           "Pharmacy",
@@ -220,7 +220,7 @@ describe("PharmaChain", function () {
   describe("QR Code Verification", function () {
     beforeEach(async function () {
       // Register manufacturer
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         manufacturer.address,
         "PharmaCorp",
         "MFG-001",
@@ -229,7 +229,7 @@ describe("PharmaChain", function () {
 
       // Mint a batch
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
-      await pharmaChain.connect(manufacturer).mintBatch(
+      await mediSeal.connect(manufacturer).mintBatch(
         "Aspirin",
         "BATCH-001",
         expiryDate,
@@ -241,7 +241,7 @@ describe("PharmaChain", function () {
     });
 
     it("Should verify valid QR code", async function () {
-      const result = await pharmaChain.verifyByQRCode("QR-HASH-001");
+      const result = await mediSeal.verifyByQRCode("QR-HASH-001");
       
       expect(result.isValid).to.be.true;
       expect(result.tokenId).to.equal(0);
@@ -251,7 +251,7 @@ describe("PharmaChain", function () {
     });
 
     it("Should return false for invalid QR code", async function () {
-      const result = await pharmaChain.verifyByQRCode("INVALID-QR");
+      const result = await mediSeal.verifyByQRCode("INVALID-QR");
       
       expect(result.isValid).to.be.false;
       expect(result.tokenId).to.equal(0);
@@ -264,7 +264,7 @@ describe("PharmaChain", function () {
 
     beforeEach(async function () {
       // Register manufacturer
-      await pharmaChain.registerStakeholder(
+      await mediSeal.registerStakeholder(
         manufacturer.address,
         "PharmaCorp",
         "MFG-001",
@@ -273,7 +273,7 @@ describe("PharmaChain", function () {
 
       // Mint a batch
       const expiryDate = Math.floor(Date.now() / 1000) + (365 * 24 * 60 * 60);
-      await pharmaChain.connect(manufacturer).mintBatch(
+      await mediSeal.connect(manufacturer).mintBatch(
         "Aspirin",
         "BATCH-001",
         expiryDate,
@@ -287,24 +287,24 @@ describe("PharmaChain", function () {
 
     it("Should allow manufacturer to recall batch", async function () {
       await expect(
-        pharmaChain.connect(manufacturer).recallBatch(tokenId, "Quality issue detected")
-      ).to.emit(pharmaChain, "BatchRecalled")
+        mediSeal.connect(manufacturer).recallBatch(tokenId, "Quality issue detected")
+      ).to.emit(mediSeal, "BatchRecalled")
        .withArgs(tokenId, "Quality issue detected");
 
-      const batchInfo = await pharmaChain.getBatchInfo(tokenId);
+      const batchInfo = await mediSeal.getBatchInfo(tokenId);
       expect(batchInfo.status).to.equal(4); // RECALLED
     });
 
     it("Should allow owner to recall batch", async function () {
       await expect(
-        pharmaChain.connect(owner).recallBatch(tokenId, "Regulatory recall")
-      ).to.emit(pharmaChain, "BatchRecalled")
+        mediSeal.connect(owner).recallBatch(tokenId, "Regulatory recall")
+      ).to.emit(mediSeal, "BatchRecalled")
        .withArgs(tokenId, "Regulatory recall");
     });
 
     it("Should not allow unauthorized recall", async function () {
       await expect(
-        pharmaChain.connect(consumer).recallBatch(tokenId, "Unauthorized recall")
+        mediSeal.connect(consumer).recallBatch(tokenId, "Unauthorized recall")
       ).to.be.revertedWith("Not authorized to recall batch");
     });
   });

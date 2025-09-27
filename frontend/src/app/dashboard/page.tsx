@@ -109,7 +109,7 @@ export default function Dashboard() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2 pb-4">
-              PharmaChain Dashboard
+              MediSeal Dashboard
             </h1>
             <p className="text-gray-400 text-lg">
               Pharmaceutical Supply Chain Management System

@@ -1,4 +1,4 @@
-import PharmaChainIPFS from '../src/ipfs-manager.js'
+import MediSealIPFS from '../src/ipfs-manager.js'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'

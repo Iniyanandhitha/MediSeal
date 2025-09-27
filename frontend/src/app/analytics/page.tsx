@@ -185,7 +185,7 @@ const BlockchainAnalytics: React.FC = () => {
               Blockchain Analytics
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Real-time insights into PharmaChain&apos;s Web3 pharmaceutical supply chain
+              Real-time insights into MediSeal&apos;s Web3 pharmaceutical supply chain
             </p>
           </div>
 

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# PharmaChain Setup Script
+# MediSeal Setup Script
 # Complete project setup and initialization
 
 set -e
 
-echo "🚀 Setting up PharmaChain..."
+echo "🚀 Setting up MediSeal..."
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -86,7 +86,7 @@ fi
 print_status "📁 Creating log directories..."
 mkdir -p ai-service/logs backend/logs ipfs/logs blockchain/logs
 
-print_success "🎉 PharmaChain setup completed!"
+print_success "🎉 MediSeal setup completed!"
 
 echo ""
 echo "📋 Next steps:"

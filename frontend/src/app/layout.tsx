@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PharmaChain - Pharmaceutical Supply Chain Management",
+  title: "MediSeal - Pharmaceutical Supply Chain Management",
   description: "Blockchain-based pharmaceutical supply chain tracking and verification system",
 };
 

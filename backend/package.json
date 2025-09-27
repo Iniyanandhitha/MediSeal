@@ -1,7 +1,7 @@
 {
-  "name": "pharmachain-backend",
+  "name": "mediseal-backend",
   "version": "1.0.0",
-  "description": "Backend API services for PharmaChain - connecting blockchain, IPFS, and AI components",
+  "description": "Backend API services for MediSeal - connecting blockchain, IPFS, and AI components",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "start:prod": "node dist/index.js"
   },
   "keywords": [
-    "pharmachain",
+    "mediseal",
     "backend",
     "api",
     "blockchain",
@@ -23,7 +23,7 @@
     "pharmaceutical",
     "supply-chain"
   ],
-  "author": "PharmaChain Team",
+  "author": "MediSeal Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

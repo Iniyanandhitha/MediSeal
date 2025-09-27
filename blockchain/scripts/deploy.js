@@ -1,27 +1,27 @@
 const hre = require("hardhat");
 
 async function main() {
-  console.log("Deploying PharmaChainOptimized contract...");
+  console.log("Deploying MediSealOptimized contract...");
 
   // Get the contract factory
-  const PharmaChain = await hre.ethers.getContractFactory("PharmaChainOptimized");
+  const MediSeal = await hre.ethers.getContractFactory("MediSealOptimized");
   
   // Deploy the contract with gas optimization
-  const pharmaChain = await PharmaChain.deploy({
+  const mediSeal = await MediSeal.deploy({
     gasLimit: 3000000 // Set gas limit to prevent out of gas errors
   });
   
-  await pharmaChain.waitForDeployment();
+  await mediSeal.waitForDeployment();
   
-  const contractAddress = await pharmaChain.getAddress();
-  console.log("PharmaChainOptimized deployed to:", contractAddress);
+  const contractAddress = await mediSeal.getAddress();
+  console.log("MediSealOptimized deployed to:", contractAddress);
   
   // Register some initial stakeholders for demo
   const [deployer] = await hre.ethers.getSigners();
   console.log("Deploying with account:", deployer.address);
   
   // Register manufacturer (using new optimized function)
-  await pharmaChain.registerStakeholder(
+  await mediSeal.registerStakeholder(
     deployer.address,
     0 // MANUFACTURER
   );
@@ -29,7 +29,7 @@ async function main() {
 
   // Register a laboratory for testing
   const labAddress = "0x742d35cc6639c0532feb32da7c1c0d7bb6de1f7f"; // Fixed checksum
-  await pharmaChain.registerStakeholder(
+  await mediSeal.registerStakeholder(
     labAddress,
     5 // LABORATORY
   );

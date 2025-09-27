@@ -1,7 +1,7 @@
 {
-  "name": "pharmachain-blockchain",
+  "name": "mediseal-blockchain",
   "version": "1.0.0",
-  "description": "Blockchain smart contracts for PharmaChain - NFT-based pharmaceutical supply chain verification",
+  "description": "Blockchain smart contracts for MediSeal - NFT-based pharmaceutical supply chain verification",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
@@ -19,7 +19,7 @@
     "supply-chain",
     "ethereum"
   ],
-  "author": "PharmaChain Team",
+  "author": "MediSeal Team",
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",

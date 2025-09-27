@@ -5,54 +5,32 @@ async function estimateGasCosts() {
 
   try {
     // Get contract factories
-    const PharmaChainOriginal = await hre.ethers.getContractFactory("PharmaChain");
-    const PharmaChainOptimized = await hre.ethers.getContractFactory("PharmaChainOptimized");
+    const MediSealOptimized = await hre.ethers.getContractFactory("MediSealOptimized");
 
     console.log("📊 Deployment Gas Estimates:");
     console.log("─".repeat(50));
-
-    // Estimate deployment gas for original
-    const originalDeployTx = await PharmaChainOriginal.getDeployTransaction();
-    const originalEstimate = await hre.ethers.provider.estimateGas(originalDeployTx);
     
     // Estimate deployment gas for optimized  
-    const optimizedDeployTx = await PharmaChainOptimized.getDeployTransaction();
+    const optimizedDeployTx = await MediSealOptimized.getDeployTransaction();
     const optimizedEstimate = await hre.ethers.provider.estimateGas(optimizedDeployTx);
 
     const gasPrice = 15n * 10n**9n; // 15 gwei
     const ethPrice = 2000; // Approximate ETH price in USD
 
-    const originalCostWei = originalEstimate * gasPrice;
     const optimizedCostWei = optimizedEstimate * gasPrice;
     
-    const originalCostETH = Number(originalCostWei) / 1e18;
     const optimizedCostETH = Number(optimizedCostWei) / 1e18;
     
-    const originalCostUSD = originalCostETH * ethPrice;
     const optimizedCostUSD = optimizedCostETH * ethPrice;
-    
-    const gasSavings = originalEstimate - optimizedEstimate;
-    const gasSavingsPercent = (Number(gasSavings) / Number(originalEstimate)) * 100;
-    const costSavingsUSD = originalCostUSD - optimizedCostUSD;
 
-    console.log(`Original Contract:`);
-    console.log(`  Gas: ${originalEstimate.toLocaleString()} units`);
-    console.log(`  Cost: ${originalCostETH.toFixed(6)} ETH (~$${originalCostUSD.toFixed(2)})`);
-    console.log();
-    
-    console.log(`Optimized Contract:`);
+    console.log(`MediSealOptimized Contract:`);
     console.log(`  Gas: ${optimizedEstimate.toLocaleString()} units`);
     console.log(`  Cost: ${optimizedCostETH.toFixed(6)} ETH (~$${optimizedCostUSD.toFixed(2)})`);
-    console.log();
-    
-    console.log(`💰 Savings:`);
-    console.log(`  Gas Reduced: ${gasSavings.toLocaleString()} units (${gasSavingsPercent.toFixed(1)}%)`);
-    console.log(`  Cost Savings: $${costSavingsUSD.toFixed(2)} USD`);
     console.log();
 
     // Deploy optimized contract to test function gas costs
     console.log("🚀 Deploying optimized contract for function testing...");
-    const optimizedContract = await PharmaChainOptimized.deploy();
+    const optimizedContract = await MediSealOptimized.deploy();
     await optimizedContract.waitForDeployment();
     
     const [deployer] = await hre.ethers.getSigners();

@@ -126,7 +126,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-white">Login to PharmaChain</h2>
+              <h2 className="text-2xl font-bold text-white">Login to MediSeal</h2>
               <p className="text-gray-400 mt-1">Select your role to access the platform</p>
             </div>
             <Button

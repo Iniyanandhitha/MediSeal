@@ -1,4 +1,4 @@
-# PharmaChain Backend API
+# MediSeal Backend API
 
 A comprehensive REST API for pharmaceutical supply chain management with blockchain integration.
 
@@ -17,7 +17,7 @@ A comprehensive REST API for pharmaceutical supply chain management with blockch
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PharmaChain Backend API                  │
+│                    MediSeal Backend API                  │
 ├─────────────────────────────────────────────────────────────┤
 │  Express.js API Server (Port 3002)                         │
 │  ├── Authentication (JWT + Wallet Signatures)              │
@@ -117,14 +117,14 @@ BASE_URL=http://localhost:3002
 
 # Blockchain
 BLOCKCHAIN_RPC_URL=http://localhost:8545
-PHARMACHAIN_CONTRACT_ADDRESS=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+MEDISEAL_CONTRACT_ADDRESS=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
 BLOCKCHAIN_PRIVATE_KEY=your_private_key
 
 # IPFS
 IPFS_API_URL=http://localhost:3001
 
 # Databases
-MONGODB_URI=mongodb://localhost:27017/pharmachain
+MONGODB_URI=mongodb://localhost:27017/mediseal
 REDIS_URL=redis://localhost:6379
 
 # JWT

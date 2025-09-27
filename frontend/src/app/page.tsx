@@ -44,7 +44,7 @@ const HomePage = () => {
           className="text-center max-w-6xl mx-auto mb-8"
         >
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
-            PharmaChain
+            MediSeal
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
             Revolutionizing pharmaceutical supply chain management with blockchain technology, 

@@ -4,7 +4,7 @@ const path = require("path");
 
 async function main() {
   const network = hre.network.name;
-  console.log(`\n🚀 Deploying PharmaChain contract to ${network} network...`);
+  console.log(`\n🚀 Deploying MediSeal contract to ${network} network...`);
 
   // Get the deployer account
   const [deployer] = await ethers.getSigners();
@@ -19,15 +19,15 @@ async function main() {
   }
 
   // Deploy the contract
-  console.log("\n📦 Deploying PharmaChain contract...");
-  const PharmaChain = await ethers.getContractFactory("PharmaChain");
-  const pharmaChain = await PharmaChain.deploy();
+  console.log("\n📦 Deploying MediSeal contract...");
+  const MediSeal = await ethers.getContractFactory("MediSealOptimized");
+  const mediSeal = await MediSeal.deploy();
   
-  await pharmaChain.waitForDeployment();
-  const contractAddress = await pharmaChain.getAddress();
+  await mediSeal.waitForDeployment();
+  const contractAddress = await mediSeal.getAddress();
   
-  console.log(`✅ PharmaChain deployed to: ${contractAddress}`);
-  console.log(`🔗 Transaction hash: ${pharmaChain.deploymentTransaction().hash}`);
+    console.log(`✅ MediSeal deployed to: ${contractAddress}`);
+  console.log(`🔗 Transaction hash: ${mediSeal.deploymentTransaction().hash}`);
 
   // Save deployment info
   const deploymentInfo = {
@@ -35,8 +35,8 @@ async function main() {
     contractAddress: contractAddress,
     deployerAddress: deployer.address,
     deploymentTime: new Date().toISOString(),
-    transactionHash: pharmaChain.deploymentTransaction().hash,
-    blockNumber: pharmaChain.deploymentTransaction().blockNumber
+    transactionHash: mediSeal.deploymentTransaction().hash,
+    blockNumber: mediSeal.deploymentTransaction().blockNumber
   };
 
   // Save to deployment file
@@ -58,7 +58,7 @@ async function main() {
   // Verify contract if on testnet
   if (network !== "localhost" && network !== "hardhat") {
     console.log("\n⏳ Waiting for block confirmations...");
-    await pharmaChain.deploymentTransaction().wait(5);
+    await mediSeal.deploymentTransaction().wait(5);
     
     try {
       console.log("🔍 Verifying contract on Etherscan...");
@@ -95,13 +95,13 @@ async function updateEnvironmentFiles(contractAddress, network) {
       let envContent = fs.readFileSync(envPath, "utf8");
       
       // Update or add contract address
-      if (envContent.includes("PHARMACHAIN_CONTRACT_ADDRESS")) {
+      if (envContent.includes("MEDISEAL_CONTRACT_ADDRESS")) {
         envContent = envContent.replace(
-          /PHARMACHAIN_CONTRACT_ADDRESS=.*/,
-          `PHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`
+          /MEDISEAL_CONTRACT_ADDRESS=.*/,
+          `MEDISEAL_CONTRACT_ADDRESS=${contractAddress}`
         );
       } else {
-        envContent += `\nPHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`;
+        envContent += `\nMEDISEAL_CONTRACT_ADDRESS=${contractAddress}`;
       }
       
       // Update or add network info
@@ -122,13 +122,13 @@ async function updateEnvironmentFiles(contractAddress, network) {
     if (service === "frontend" && fs.existsSync(envLocalPath)) {
       let envContent = fs.readFileSync(envLocalPath, "utf8");
       
-      if (envContent.includes("NEXT_PUBLIC_PHARMACHAIN_CONTRACT_ADDRESS")) {
+      if (envContent.includes("NEXT_PUBLIC_MEDISEAL_CONTRACT_ADDRESS")) {
         envContent = envContent.replace(
-          /NEXT_PUBLIC_PHARMACHAIN_CONTRACT_ADDRESS=.*/,
-          `NEXT_PUBLIC_PHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`
+          /NEXT_PUBLIC_MEDISEAL_CONTRACT_ADDRESS=.*/,
+          `NEXT_PUBLIC_MEDISEAL_CONTRACT_ADDRESS=${contractAddress}`
         );
       } else {
-        envContent += `\nNEXT_PUBLIC_PHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`;
+        envContent += `\nNEXT_PUBLIC_MEDISEAL_CONTRACT_ADDRESS=${contractAddress}`;
       }
       
       fs.writeFileSync(envLocalPath, envContent);
@@ -141,13 +141,13 @@ async function updateEnvironmentFiles(contractAddress, network) {
   if (fs.existsSync(blockchainEnvPath)) {
     let envContent = fs.readFileSync(blockchainEnvPath, "utf8");
     
-    if (envContent.includes("PHARMACHAIN_CONTRACT_ADDRESS")) {
+    if (envContent.includes("MEDISEAL_CONTRACT_ADDRESS")) {
       envContent = envContent.replace(
-        /PHARMACHAIN_CONTRACT_ADDRESS=.*/,
-        `PHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`
+        /MEDISEAL_CONTRACT_ADDRESS=.*/,
+        `MEDISEAL_CONTRACT_ADDRESS=${contractAddress}`
       );
     } else {
-      envContent += `\nPHARMACHAIN_CONTRACT_ADDRESS=${contractAddress}`;
+      envContent += `\nMEDISEAL_CONTRACT_ADDRESS=${contractAddress}`;
     }
     
     fs.writeFileSync(blockchainEnvPath, envContent);

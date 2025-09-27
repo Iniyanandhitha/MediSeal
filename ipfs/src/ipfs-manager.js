@@ -4,10 +4,10 @@ import { dagCbor } from '@helia/dag-cbor'
 import { CID } from 'multiformats/cid'
 
 /**
- * PharmaChain IPFS Manager
+ * MediSeal IPFS Manager
  * Handles decentralized storage for pharmaceutical batch data
  */
-export class PharmaChainIPFS {
+export class MediSealIPFS {
   constructor() {
     this.helia = null
     this.fs = null
@@ -442,4 +442,4 @@ export class PharmaChainIPFS {
   }
 }
 
-export default PharmaChainIPFS
+export default MediSealIPFS
