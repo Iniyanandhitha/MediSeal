@@ -1,58 +1,89 @@
-const hre = require("hardhat");
-
 async function main() {
-  console.log("Deploying MediSealOptimized contract...");
+  const { ethers, network } = require("hardhat");
+  const fs = require("fs");
+  
+  console.log("🚀 MediSeal Smart Contract Deployment");
+  console.log("=====================================");
+  console.log("Network:", network.name);
+  console.log("Deploying MediSeal contract...\n");
 
-  // Get the contract factory
-  const MediSeal = await hre.ethers.getContractFactory("MediSealOptimized");
+  // Get the first signer
+  const signers = await ethers.getSigners();
+  const deployer = signers[0];
   
-  // Deploy the contract with gas optimization
-  const mediSeal = await MediSeal.deploy({
-    gasLimit: 3000000 // Set gas limit to prevent out of gas errors
-  });
+  console.log("📝 Deployer address:", deployer.address);
   
+  // Get balance
+  const balance = await ethers.provider.getBalance(deployer.address);
+  console.log("💰 Deployer balance:", ethers.formatEther(balance), "ETH");
+
+  if (balance < ethers.parseEther("0.01")) {
+    console.log("⚠️  WARNING: Low balance. Make sure you have enough ETH for deployment.\n");
+  }
+
+  // Get contract factory with explicit signer
+  const MediSeal = await ethers.getContractFactory("MediSeal", deployer);
+  
+  // Deploy with explicit signer
+  console.log("📦 Deploying contract...");
+  const mediSeal = await MediSeal.connect(deployer).deploy();
+  
+  console.log("⏳ Deployment transaction sent, waiting for confirmation...");
   await mediSeal.waitForDeployment();
   
   const contractAddress = await mediSeal.getAddress();
-  console.log("MediSealOptimized deployed to:", contractAddress);
+  console.log("✅ MediSeal deployed to:", contractAddress);
   
-  // Register some initial stakeholders for demo
-  const [deployer] = await hre.ethers.getSigners();
-  console.log("Deploying with account:", deployer.address);
-  
-  // Register manufacturer (using new optimized function)
-  await mediSeal.registerStakeholder(
-    deployer.address,
-    0 // MANUFACTURER
-  );
-  console.log("Registered manufacturer:", deployer.address);
-
-  // Register a laboratory for testing
-  const labAddress = "0x742d35cc6639c0532feb32da7c1c0d7bb6de1f7f"; // Fixed checksum
-  await mediSeal.registerStakeholder(
-    labAddress,
-    5 // LABORATORY
-  );
-  console.log("Registered laboratory:", labAddress);
+  // Test contract functionality
+  try {
+    const owner = await mediSeal.owner();
+    console.log("👤 Contract owner:", owner);
+    
+    // Register the deployer as a manufacturer
+    console.log("\n🏭 Registering deployer as manufacturer...");
+    await mediSeal.registerStakeholder(deployer.address, 0); // 0 = MANUFACTURER
+    console.log("✅ Manufacturer registered successfully");
+    
+  } catch (error) {
+    console.log("⚠️  Error during contract setup:", error.message);
+  }
   
   // Save deployment info
   const deploymentInfo = {
-    network: hre.network.name,
+    network: network.name,
     contractAddress: contractAddress,
     deployer: deployer.address,
     deploymentTime: new Date().toISOString(),
-    blockNumber: await hre.ethers.provider.getBlockNumber()
+    blockNumber: await ethers.provider.getBlockNumber()
   };
   
-  console.log("Deployment completed successfully!");
-  console.log("Deployment info:", deploymentInfo);
+  fs.writeFileSync(
+    'deployment-info.json', 
+    JSON.stringify(deploymentInfo, null, 2)
+  );
+  console.log("📄 Deployment info saved to deployment-info.json");
   
-  return deploymentInfo;
+  return contractAddress;
 }
 
 main()
-  .then(() => process.exit(0))
+  .then((address) => {
+    console.log("\n🎉 DEPLOYMENT COMPLETED SUCCESSFULLY!");
+    console.log("=====================================");
+    console.log("Contract address:", address);
+    console.log("\n📋 Next Steps:");
+    console.log("- Use the contract address to interact with MediSeal");
+    console.log("- Update your frontend/backend with the new contract address");
+    console.log("- Verify the contract on Etherscan if deploying to testnet/mainnet");
+    process.exit(0);
+  })
   .catch((error) => {
-    console.error(error);
+    console.error("\n❌ DEPLOYMENT FAILED!");
+    console.error("===================");
+    console.error("Error:", error.message);
+    console.error("\n💡 Troubleshooting:");
+    console.error("- Check your account balance");
+    console.error("- Ensure the network is accessible");
+    console.error("- Verify the contract compiles successfully");
     process.exit(1);
   });

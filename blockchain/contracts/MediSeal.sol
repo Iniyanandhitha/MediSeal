@@ -5,11 +5,11 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title MediSealOptimized
+ * @title MediSeal
  * @dev Gas-optimized NFT-based pharmaceutical supply chain with Laboratory support
  * Each NFT represents a unique batch of medicine with complete traceability
  */
-contract MediSealOptimized is ERC721, Ownable {
+contract MediSeal is ERC721, Ownable {
     uint256 private _tokenIdCounter;
     
     // Packed enums for gas efficiency (uint8)

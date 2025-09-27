@@ -34,12 +34,7 @@ module.exports = {
       gas: 5000000
     },
     hardhat: {
-      accounts: process.env.PRIVATE_KEY ? [
-        {
-          privateKey: process.env.PRIVATE_KEY,
-          balance: "10000000000000000000000" // 10000 ETH
-        }
-      ] : [],
+      // Use default hardhat accounts for local development
       gas: "auto",
       gasPrice: "auto",
       allowUnlimitedContractSize: false
