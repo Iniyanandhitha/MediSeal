@@ -42,7 +42,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     manufacturer: {
       icon: Factory,
       label: 'Manufacturer',
-      color: 'from-scooter-400 to-scooter-700',
+      color: 'from-blue-500 to-blue-700',
       description: 'Drug manufacturing companies',
       identifierLabel: 'Manufacturer License ID',
       placeholder: 'e.g., MFR-001',
@@ -51,7 +51,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     distributor: {
       icon: Truck,
       label: 'Distributor',
-      color: 'from-scooter-100 to-scooter-400',
+      color: 'from-green-500 to-green-700',
       description: 'Supply chain distributors',
       identifierLabel: 'Distributor License ID',
       placeholder: 'e.g., DIST-001',
@@ -60,7 +60,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     laboratory: {
       icon: FlaskConical,
       label: 'Laboratory',
-      color: 'from-scooter-50 to-scooter-100',
+      color: 'from-purple-500 to-purple-700',
       description: 'Quality testing laboratories',
       identifierLabel: 'Laboratory License ID',
       placeholder: 'e.g., LAB-001',
@@ -69,7 +69,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     pharmacy: {
       icon: Store,
       label: 'Pharmacy',
-      color: 'from-scooter-400 to-scooter-700',
+      color: 'from-orange-500 to-orange-700',
       description: 'Retail pharmacies',
       identifierLabel: 'Pharmacy License ID',
       placeholder: 'e.g., PHARM-001',
