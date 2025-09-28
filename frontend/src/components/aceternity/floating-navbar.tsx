@@ -34,10 +34,7 @@ export const FloatingNav = ({
   // Filter navigation items based on user permissions
   const filteredNavItems = navItems.filter(item => {
     const pageName = item.link.replace('/', '') || 'dashboard';
-    const hasAccess = canAccessPage(pageName);
-    // Temporary debug logging
-    console.log(`Nav item: ${item.name} (${pageName}) - Access: ${hasAccess} - User: ${user?.name} (${user?.role})`);
-    return hasAccess;
+    return canAccessPage(pageName);
   });
 
   return (
