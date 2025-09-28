@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { BackgroundBeams } from "@/components/aceternity/background-beams";
 import { FloatingNav } from "@/components/aceternity/floating-navbar";
 import { HoverCard } from "@/components/aceternity/hover-card";
 import { Badge } from "@/components/ui/badge";
@@ -40,28 +39,28 @@ const statsCards = [
     value: "1,247",
     change: "+12.5%",
     icon: Package,
-    color: "from-blue-500 to-blue-700",
+    color: "from-blue-400 to-blue-600",
   },
   {
     title: "Active Transfers",
     value: "87",
     change: "+4.2%",
     icon: Truck,
-    color: "from-green-500 to-green-700",
+    color: "from-cyan-400 to-cyan-600",
   },
   {
     title: "Verified Stakeholders",
     value: "342",
     change: "+8.1%",
     icon: Users,
-    color: "from-purple-500 to-purple-700",
+    color: "from-indigo-400 to-indigo-600",
   },
   {
     title: "Security Score",
     value: "98.7%",
     change: "+0.3%",
     icon: Shield,
-    color: "from-red-500 to-red-700",
+    color: "from-teal-400 to-teal-600",
   },
 ];
 
@@ -94,12 +93,74 @@ const recentBatches = [
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen relative">
-      <BackgroundBeams />
-      
-      <FloatingNav navItems={navItems} />
-      
-      <div className="relative z-10 pt-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-950 relative">
+      {/* Lamp Background Effect - Fixed */}
+      <div className="fixed inset-0 z-0">
+        <div className="relative flex w-full h-full scale-y-125 items-center justify-center isolate z-0 overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0.5, width: "15rem" }}
+            animate={{ opacity: 1, width: "30rem" }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            style={{
+              backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+            }}
+            className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-blue-500 via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+          >
+            <div className="absolute w-[100%] left-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+            <div className="absolute w-40 h-[100%] left-0 bg-slate-950 bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0.5, width: "15rem" }}
+            animate={{ opacity: 1, width: "30rem" }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            style={{
+              backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+            }}
+            className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-blue-500 text-white [--conic-position:from_290deg_at_center_top]"
+          >
+            <div className="absolute w-40 h-[100%] right-0 bg-slate-950 bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+            <div className="absolute w-[100%] right-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          </motion.div>
+          <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
+          <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
+          <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-blue-500 opacity-50 blur-3xl"></div>
+          <motion.div
+            initial={{ width: "8rem" }}
+            animate={{ width: "16rem" }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-400 blur-2xl"
+          ></motion.div>
+          <motion.div
+            initial={{ width: "15rem" }}
+            animate={{ width: "30rem" }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-blue-400"
+          ></motion.div>
+          <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950"></div>
+        </div>
+      </div>
+
+      {/* Scrollable Content */}
+      <div className="relative z-10">
+        <FloatingNav navItems={navItems} />
+        
+        <div className="relative z-10 pt-24 px-4 sm:px-6 lg:px-8 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,10 +169,10 @@ export default function Dashboard() {
         >
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2 pb-4">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-200 via-white to-blue-200 bg-clip-text text-transparent mb-2 pb-4">
               MediSeal Dashboard
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-blue-100 text-lg">
               Pharmaceutical Supply Chain Management System
             </p>
           </div>
@@ -127,17 +188,17 @@ export default function Dashboard() {
               >
                 <HoverCard>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-300">
+                    <CardTitle className="text-sm font-medium text-blue-100">
                       {stat.title}
                     </CardTitle>
-                    <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.color} bg-opacity-20`}>
+                    <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.color} bg-opacity-30`}>
                       <stat.icon className="h-4 w-4 text-white" />
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold text-white">{stat.value}</div>
-                    <p className="text-xs text-gray-400">
-                      <span className="text-green-400">{stat.change}</span> from last month
+                    <p className="text-xs text-blue-200">
+                      <span className="text-cyan-300">{stat.change}</span> from last month
                     </p>
                   </CardContent>
                 </HoverCard>
@@ -155,10 +216,10 @@ export default function Dashboard() {
             <HoverCard>
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
-                  <Truck className="h-5 w-5" />
+                  <Truck className="h-5 w-5 text-blue-400" />
                   Pharmaceutical Supply Chain Flow
                 </CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardDescription className="text-blue-200">
                   Complete flow from manufacturing to consumer verification
                 </CardDescription>
               </CardHeader>
@@ -170,7 +231,7 @@ export default function Dashboard() {
                         <Plus className="h-6 w-6 text-blue-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">1. Mint</h3>
-                      <p className="text-xs text-gray-400">Manufacture & Create Batch</p>
+                      <p className="text-xs text-blue-200">Manufacture & Create Batch</p>
                     </div>
                   </Link>
 
@@ -184,33 +245,33 @@ export default function Dashboard() {
                         <Package className="h-6 w-6 text-cyan-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">2. Inventory</h3>
-                      <p className="text-xs text-gray-400">Warehouse Storage</p>
+                      <p className="text-xs text-blue-200">Warehouse Storage</p>
                     </div>
                   </Link>
 
                   <div className="hidden md:flex items-center justify-center">
-                    <div className="w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-green-500"></div>
+                    <div className="w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-teal-500"></div>
                   </div>
 
                   <Link href="/transfer" className="group">
-                    <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/20 rounded-lg hover:border-green-400/40 transition-all duration-300 text-center">
-                      <div className="p-3 bg-green-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Zap className="h-6 w-6 text-green-400" />
+                    <div className="p-4 bg-gradient-to-br from-teal-500/10 to-teal-600/10 border border-teal-500/20 rounded-lg hover:border-teal-400/40 transition-all duration-300 text-center">
+                      <div className="p-3 bg-teal-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Zap className="h-6 w-6 text-teal-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">3. Transfer</h3>
-                      <p className="text-xs text-gray-400">Distribution Network</p>
+                      <p className="text-xs text-blue-200">Distribution Network</p>
                     </div>
                   </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                   <Link href="/pharmacy" className="group">
-                    <div className="p-4 bg-gradient-to-br from-orange-500/10 to-orange-600/10 border border-orange-500/20 rounded-lg hover:border-orange-400/40 transition-all duration-300 text-center">
-                      <div className="p-3 bg-orange-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Store className="h-6 w-6 text-orange-400" />
+                    <div className="p-4 bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 border border-indigo-500/20 rounded-lg hover:border-indigo-400/40 transition-all duration-300 text-center">
+                      <div className="p-3 bg-indigo-500/20 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Store className="h-6 w-6 text-indigo-400" />
                       </div>
                       <h3 className="font-semibold text-white mb-1 text-sm">4. Pharmacy</h3>
-                      <p className="text-xs text-gray-400">Retail & Prescription Dispensing</p>
+                      <p className="text-xs text-blue-200">Retail & Prescription Dispensing</p>
                     </div>
                   </Link>
 
@@ -240,10 +301,10 @@ export default function Dashboard() {
                 <HoverCard className="mb-6">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <BarChart3 className="h-5 w-5" />
+                      <BarChart3 className="h-5 w-5 text-blue-400" />
                       Quick Actions
                     </CardTitle>
-                    <CardDescription className="text-gray-400 pb-4">
+                    <CardDescription className="text-blue-200 pb-4">
                       Common pharmaceutical supply chain operations
                     </CardDescription>
                   </CardHeader>
@@ -281,7 +342,7 @@ export default function Dashboard() {
                 <HoverCard>
                   <CardHeader>
                     <CardTitle className="text-white">Recent Batches</CardTitle>
-                    <CardDescription className="text-gray-400">
+                    <CardDescription className="text-blue-200">
                       Latest pharmaceutical batch activities
                     </CardDescription>
                   </CardHeader>
@@ -301,7 +362,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                               <h4 className="font-medium text-white">{batch.drug}</h4>
-                              <p className="text-sm text-gray-400">
+                              <p className="text-sm text-blue-200">
                                 {batch.id} • {batch.manufacturer}
                               </p>
                             </div>
@@ -313,7 +374,7 @@ export default function Dashboard() {
                             >
                               {batch.status}
                             </Badge>
-                            <p className="text-xs text-gray-400">{batch.quantity.toLocaleString()} units</p>
+                            <p className="text-xs text-blue-200">{batch.quantity.toLocaleString()} units</p>
                           </div>
                         </motion.div>
                       ))}
@@ -333,7 +394,7 @@ export default function Dashboard() {
                 <HoverCard className="mb-6">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <Shield className="h-5 w-5" />
+                      <Shield className="h-5 w-5 text-blue-400" />
                       System Status
                     </CardTitle>
                   </CardHeader>
@@ -345,10 +406,10 @@ export default function Dashboard() {
                       { service: "Database", status: "maintenance", color: "yellow" },
                     ].map((service) => (
                       <div key={service.service} className="flex items-center justify-between">
-                        <span className="text-gray-300">{service.service}</span>
+                        <span className="text-blue-100">{service.service}</span>
                         <div className="flex items-center gap-2">
                           <div className={`w-2 h-2 rounded-full bg-${service.color}-500`} />
-                          <span className="text-sm text-gray-400 capitalize">{service.status}</span>
+                          <span className="text-sm text-blue-200 capitalize">{service.status}</span>
                         </div>
                       </div>
                     ))}
@@ -358,7 +419,7 @@ export default function Dashboard() {
                 <HoverCard>
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
-                      <Users className="h-5 w-5" />
+                      <Users className="h-5 w-5 text-blue-400" />
                       Stakeholder Network
                     </CardTitle>
                   </CardHeader>
@@ -370,12 +431,12 @@ export default function Dashboard() {
                       { type: "Regulators", count: 8, icon: CheckCircle2 },
                     ].map((stakeholder) => (
                       <div key={stakeholder.type} className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-slate-700/50">
-                          <stakeholder.icon className="h-4 w-4 text-gray-300" />
+                        <div className="p-2 rounded-lg bg-blue-500/20">
+                          <stakeholder.icon className="h-4 w-4 text-blue-300" />
                         </div>
                         <div className="flex-1">
                           <div className="text-white font-medium">{stakeholder.count}</div>
-                          <div className="text-xs text-gray-400">{stakeholder.type}</div>
+                          <div className="text-xs text-blue-200">{stakeholder.type}</div>
                         </div>
                       </div>
                     ))}
@@ -385,6 +446,7 @@ export default function Dashboard() {
             </div>
           </div>
         </motion.div>
+        </div>
       </div>
     </div>
   );

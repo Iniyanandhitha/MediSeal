@@ -1,8 +1,18 @@
 "use client";
 
-import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { useState, useEffect, useCallback, createContext, useContext, ReactNode } from 'react';
 
 // Types for Web3 functionality
+interface EthereumProvider {
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+  on: (event: string, handler: (data: unknown) => void) => void;
+  removeListener: (event: string, handler: (data: unknown) => void) => void;
+}
+
+interface WindowWithEthereum extends Window {
+  ethereum?: EthereumProvider;
+}
+
 export interface WalletState {
   address: string | null;
   isConnected: boolean;
@@ -53,31 +63,29 @@ export function Web3Provider({ children }: { children: ReactNode }) {
 
   // Check if MetaMask is installed
   useEffect(() => {
-    setIsMetaMaskInstalled(typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined');
+    setIsMetaMaskInstalled(typeof window !== 'undefined' && typeof (window as unknown as { ethereum?: unknown }).ethereum !== 'undefined');
   }, []);
 
-  // Check if already connected on load
-  useEffect(() => {
-    checkConnection();
-  }, []);
-
-  const checkConnection = async () => {
+  const checkConnection = useCallback(async () => {
     if (!isMetaMaskInstalled) return;
 
     try {
-      const accounts = await (window as any).ethereum.request({
+      const ethereum = (window as WindowWithEthereum).ethereum;
+      if (!ethereum) return;
+      
+      const accounts = await ethereum.request({
         method: 'eth_accounts'
-      });
+      }) as string[];
 
       if (accounts.length > 0) {
-        const chainId = await (window as any).ethereum.request({
+        const chainId = await ethereum.request({
           method: 'eth_chainId'
-        });
-        
-        const balance = await (window as any).ethereum.request({
+        }) as string;
+
+        const balance = await ethereum.request({
           method: 'eth_getBalance',
           params: [accounts[0], 'latest']
-        });
+        }) as string;
 
         setWallet({
           address: accounts[0],
@@ -90,7 +98,12 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error checking connection:', error);
     }
-  };
+  }, [isMetaMaskInstalled]);
+
+  // Check if already connected on load
+  useEffect(() => {
+    checkConnection();
+  }, [checkConnection]);
 
   const connectWallet = async () => {
     if (!isMetaMaskInstalled) {
@@ -101,19 +114,22 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     setWallet(prev => ({ ...prev, isConnecting: true }));
 
     try {
+      const ethereum = (window as WindowWithEthereum).ethereum;
+      if (!ethereum) throw new Error('Ethereum provider not found');
+      
       // Request account access
-      const accounts = await (window as any).ethereum.request({
+      const accounts = await ethereum.request({
         method: 'eth_requestAccounts'
-      });
+      }) as string[];
 
-      const chainId = await (window as any).ethereum.request({
+      const chainId = await ethereum.request({
         method: 'eth_chainId'
-      });
+      }) as string;
 
-      const balance = await (window as any).ethereum.request({
+      const balance = await ethereum.request({
         method: 'eth_getBalance',
         params: [accounts[0], 'latest']
-      });
+      }) as string;
 
       setWallet({
         address: accounts[0],
@@ -130,14 +146,15 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         console.log('Could not switch to Hardhat network:', switchError);
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error connecting wallet:', error);
       setWallet(prev => ({ ...prev, isConnecting: false }));
       
-      if (error.code === 4001) {
-        alert('Please connect your wallet to continue');
+      const errorObj = error as { code?: number };
+      if (errorObj.code === 4001) {
+        alert('Please connect to MetaMask.');
       } else {
-        alert('Error connecting wallet: ' + error.message);
+        alert('Failed to connect wallet. Please try again.');
       }
     }
   };
@@ -156,16 +173,23 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     if (!isMetaMaskInstalled || !wallet.isConnected) return;
 
     try {
-      await (window as any).ethereum.request({
+      const ethereum = (window as WindowWithEthereum).ethereum;
+      if (!ethereum) return;
+      
+      await ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${chainId.toString(16)}` }]
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Chain not added to MetaMask
-      if (error.code === 4902) {
+      const errorObj = error as { code?: number };
+      if (errorObj.code === 4902) {
         const chain = Object.values(SUPPORTED_CHAINS).find(c => c.id === chainId);
         if (chain) {
-          await (window as any).ethereum.request({
+          const ethereum = (window as WindowWithEthereum).ethereum;
+          if (!ethereum) return;
+          
+          await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [{
               chainId: `0x${chainId.toString(16)}`,
@@ -186,10 +210,13 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const signature = await (window as any).ethereum.request({
+      const ethereum = (window as WindowWithEthereum).ethereum;
+      if (!ethereum) throw new Error('Ethereum provider not found');
+      
+      const signature = await ethereum.request({
         method: 'personal_sign',
         params: [message, wallet.address]
-      });
+      }) as string;
       return signature;
     } catch (error) {
       console.error('Error signing message:', error);
@@ -201,7 +228,8 @@ export function Web3Provider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isMetaMaskInstalled) return;
 
-    const handleAccountsChanged = (accounts: string[]) => {
+    const handleAccountsChanged = (data: unknown) => {
+      const accounts = data as string[];
       if (accounts.length === 0) {
         disconnectWallet();
       } else {
@@ -209,17 +237,21 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       }
     };
 
-    const handleChainChanged = (chainId: string) => {
+    const handleChainChanged = (data: unknown) => {
+      const chainId = data as string;
       setWallet(prev => ({ ...prev, chainId: parseInt(chainId, 16) }));
     };
 
-    (window as any).ethereum.on('accountsChanged', handleAccountsChanged);
-    (window as any).ethereum.on('chainChanged', handleChainChanged);
+    const ethereum = (window as WindowWithEthereum).ethereum;
+    if (ethereum) {
+      ethereum.on('accountsChanged', handleAccountsChanged);
+      ethereum.on('chainChanged', handleChainChanged);
 
-    return () => {
-      (window as any).ethereum?.removeListener('accountsChanged', handleAccountsChanged);
-      (window as any).ethereum?.removeListener('chainChanged', handleChainChanged);
-    };
+      return () => {
+        ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        ethereum.removeListener('chainChanged', handleChainChanged);
+      };
+    }
   }, [isMetaMaskInstalled]);
 
   const value: Web3ContextType = {
