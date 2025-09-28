@@ -13,12 +13,23 @@ export interface User {
   organizationId?: string;
   licenseNumber?: string;
   isVerified: boolean;
+  isMaster?: boolean;
 }
+
+// Master wallet addresses with full platform access
+const MASTER_WALLETS = [
+  '0x35b149a0ebB942A81830F3E126357bC10378E849',
+  '0x2962B9266a48E8F83c583caD27Be093f231781b8',
+  '0x5387ffAB40F66172b7eEbCEDDC0F1f3bc7536092'
+].map(addr => addr.toLowerCase());
 
 export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  walletConnected: boolean;
+  connectedAddress: string | null;
+  isMasterWallet: boolean;
   login: (credentials: LoginCredentials) => Promise<boolean>;
   logout: () => void;
   connectWallet: () => Promise<boolean>;
@@ -46,6 +57,7 @@ const mockUsers = {
       email: 'contact@pharmacorp.com',
       organizationId: 'MFR-001',
       licenseNumber: 'MFG-LIC-2025-001',
+      walletAddress: '0x742d35Cc6634C0532925a3b8D8b8FbD7341d1234',
       isVerified: true,
     },
     'MFR-002': {
@@ -55,6 +67,7 @@ const mockUsers = {
       email: 'info@biotech.com',
       organizationId: 'MFR-002',
       licenseNumber: 'MFG-LIC-2025-002',
+      walletAddress: '0x8E5a2e2b4C8D0F6A2B3C1d2E3F4a5B6C7d8e9f01',
       isVerified: true,
     }
   },
@@ -66,6 +79,7 @@ const mockUsers = {
       email: 'ops@medisupply.com',
       organizationId: 'DIST-001',
       licenseNumber: 'DIST-LIC-2025-001',
+      walletAddress: '0x1A2b3C4d5E6F7a8B9c0D1e2F3a4B5c6D7e8F9011',
       isVerified: true,
     },
     'DIST-002': {
@@ -75,6 +89,7 @@ const mockUsers = {
       email: 'contact@globallogistics.com',
       organizationId: 'DIST-002',
       licenseNumber: 'DIST-LIC-2025-002',
+      walletAddress: '0x9F8e7D6c5B4a394847362518A7b6C5d4E3f2e101',
       isVerified: true,
     }
   },
@@ -86,6 +101,7 @@ const mockUsers = {
       email: 'quality@pharmatest.com',
       organizationId: 'LAB-001',
       licenseNumber: 'LAB-LIC-2025-001',
+      walletAddress: '0x2B3c4D5e6F7a8B9c0D1e2F3a4B5c6D7e8F901234',
       isVerified: true,
     },
     'LAB-002': {
@@ -95,6 +111,7 @@ const mockUsers = {
       email: 'testing@qacenter.com',
       organizationId: 'LAB-002',
       licenseNumber: 'LAB-LIC-2025-002',
+      walletAddress: '0x3C4d5E6f7A8b9C0d1E2f3A4b5C6d7E8f90123456',
       isVerified: true,
     }
   },
@@ -106,6 +123,7 @@ const mockUsers = {
       email: 'pharmacist@healthcare.com',
       organizationId: 'PHARM-001',
       licenseNumber: 'PHARM-LIC-2025-001',
+      walletAddress: '0x4D5e6F7a8B9c0D1e2F3a4B5c6D7e8F9012345678',
       isVerified: true,
     },
     'PHARM-002': {
@@ -115,20 +133,32 @@ const mockUsers = {
       email: 'info@citymedical.com',
       organizationId: 'PHARM-002',
       licenseNumber: 'PHARM-LIC-2025-002',
+      walletAddress: '0x5E6f7A8b9C0d1E2f3A4b5C6d7E8f901234567890',
       isVerified: true,
     }
   }
 };
 
+const isMasterWallet = (address: string | null): boolean => {
+  if (!address) return false;
+  return MASTER_WALLETS.includes(address.toLowerCase());
+};
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
   useEffect(() => {
     // Check for stored authentication on mount
     const storedUser = localStorage.getItem('mediseal_user');
+    const storedAddress = localStorage.getItem('mediseal_wallet');
+    
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }
+    if (storedAddress) {
+      setConnectedAddress(storedAddress);
     }
     setIsLoading(false);
   }, []);
@@ -140,30 +170,55 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (credentials.role === 'consumer') {
-        // Consumers only use wallet connection
-        if (credentials.walletAddress) {
-          const consumerUser: User = {
-            id: credentials.walletAddress,
-            role: 'consumer',
-            name: 'Consumer',
-            walletAddress: credentials.walletAddress,
-            isVerified: true,
-          };
-          setUser(consumerUser);
-          localStorage.setItem('mediseal_user', JSON.stringify(consumerUser));
-          return true;
-        }
-        return false;
+      // Require wallet connection for all stakeholder logins
+      if (!connectedAddress) {
+        setIsLoading(false);
+        return false; // Must connect wallet first
       }
 
-      // For other roles, check mock database
+      if (credentials.role === 'consumer') {
+        // Consumers only use wallet connection
+        const consumerUser: User = {
+          id: connectedAddress,
+          role: 'consumer',
+          name: 'Consumer',
+          walletAddress: connectedAddress,
+          isVerified: true,
+        };
+        setUser(consumerUser);
+        localStorage.setItem('mediseal_user', JSON.stringify(consumerUser));
+        return true;
+      }
+
+      // For stakeholder roles, check mock database and verify wallet address matches
       const roleUsers = mockUsers[credentials.role as keyof typeof mockUsers];
       if (roleUsers && credentials.identifier in roleUsers) {
         const foundUser = roleUsers[credentials.identifier as keyof typeof roleUsers];
-        setUser(foundUser);
-        localStorage.setItem('mediseal_user', JSON.stringify(foundUser));
-        return true;
+        
+        // Master wallets can login as any stakeholder without wallet address validation
+        if (isMasterWallet(connectedAddress)) {
+          const userWithWallet = foundUser as User;
+          // Create a copy with master wallet address and master flag
+          const masterUser: User = {
+            ...userWithWallet,
+            walletAddress: connectedAddress, // Use master wallet address
+            isMaster: true, // Mark as master for backend access
+          };
+          setUser(masterUser);
+          localStorage.setItem('mediseal_user', JSON.stringify(masterUser));
+          return true;
+        }
+        
+        // Regular users: verify that connected wallet matches the stakeholder's registered wallet
+        const userWithWallet = foundUser as User;
+        if (userWithWallet.walletAddress?.toLowerCase() === connectedAddress.toLowerCase()) {
+          setUser(userWithWallet);
+          localStorage.setItem('mediseal_user', JSON.stringify(userWithWallet));
+          return true;
+        } else {
+          // Wallet address doesn't match the stakeholder
+          return false;
+        }
       }
 
       return false;
@@ -177,7 +232,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = () => {
     setUser(null);
+    setConnectedAddress(null);
     localStorage.removeItem('mediseal_user');
+    localStorage.removeItem('mediseal_wallet');
   };
 
   const connectWallet = async (): Promise<boolean> => {
@@ -186,25 +243,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
         if (accounts && accounts.length > 0) {
           const walletAddress = accounts[0];
+          setConnectedAddress(walletAddress);
+          localStorage.setItem('mediseal_wallet', walletAddress);
           
-          // If user is already logged in with a role, just add wallet
-          if (user && user.role !== 'consumer') {
-            const updatedUser = { ...user, walletAddress };
-            setUser(updatedUser);
-            localStorage.setItem('mediseal_user', JSON.stringify(updatedUser));
-            return true;
+          // Auto-login master wallets (silent access as manufacturer)
+          if (isMasterWallet(walletAddress)) {
+            const masterUser: User = {
+              id: walletAddress,
+              role: 'manufacturer',
+              name: 'Master Admin',
+              walletAddress: walletAddress,
+              isVerified: true,
+              isMaster: true,
+            };
+            setUser(masterUser);
+            localStorage.setItem('mediseal_user', JSON.stringify(masterUser));
           }
           
-          // If no user or consumer, create consumer user
-          const consumerUser: User = {
-            id: walletAddress,
-            role: 'consumer',
-            name: 'Consumer',
-            walletAddress,
-            isVerified: true,
-          };
-          setUser(consumerUser);
-          localStorage.setItem('mediseal_user', JSON.stringify(consumerUser));
           return true;
         }
       }
@@ -216,14 +271,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const disconnectWallet = () => {
-    if (user?.role === 'consumer') {
+    setConnectedAddress(null);
+    localStorage.removeItem('mediseal_wallet');
+    
+    // If user is logged in as stakeholder, log them out since wallet is required
+    if (user && user.role !== 'consumer') {
+      setUser(null);
+      localStorage.removeItem('mediseal_user');
+    } else if (user?.role === 'consumer') {
       // If consumer, fully logout
-      logout();
-    } else if (user) {
-      // If other role, just remove wallet address
-      const updatedUser = { ...user, walletAddress: undefined };
-      setUser(updatedUser);
-      localStorage.setItem('mediseal_user', JSON.stringify(updatedUser));
+      setUser(null);
+      localStorage.removeItem('mediseal_user');
     }
   };
 
@@ -233,7 +291,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const canAccessPage = (page: string): boolean => {
-    if (!user) return page === 'verify'; // Only verify page is public
+    // Master wallets have access to everything
+    if (user?.isMaster || isMasterWallet(connectedAddress)) {
+      return true;
+    }
+    
+    // Verify page only needs wallet connection
+    if (page === 'verify') {
+      return !!connectedAddress;
+    }
+    
+    // All other pages need full authentication (wallet + stakeholder login)
+    if (!user || !connectedAddress) return false;
     
     switch (page) {
       case 'mint':
@@ -246,8 +315,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return user.role === 'laboratory';
       case 'pharmacy':
         return user.role === 'pharmacy';
-      case 'verify':
-        return true; // Anyone can verify
       case 'analytics':
         return user.role !== 'consumer'; // All stakeholders can view analytics
       case 'dashboard':
@@ -261,6 +328,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     user,
     isAuthenticated: !!user,
     isLoading,
+    walletConnected: !!connectedAddress,
+    connectedAddress,
+    isMasterWallet: isMasterWallet(connectedAddress),
     login,
     logout,
     connectWallet,

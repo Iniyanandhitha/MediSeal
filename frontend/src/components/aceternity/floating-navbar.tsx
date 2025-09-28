@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginModal } from "@/components/LoginModal";
+import { ConnectWalletButton } from "@/components/ConnectWalletButton";
 import Link from "next/link";
 
 interface NavItem {
@@ -33,7 +34,10 @@ export const FloatingNav = ({
   // Filter navigation items based on user permissions
   const filteredNavItems = navItems.filter(item => {
     const pageName = item.link.replace('/', '') || 'dashboard';
-    return canAccessPage(pageName);
+    const hasAccess = canAccessPage(pageName);
+    // Temporary debug logging
+    console.log(`Nav item: ${item.name} (${pageName}) - Access: ${hasAccess} - User: ${user?.name} (${user?.role})`);
+    return hasAccess;
   });
 
   return (
@@ -52,9 +56,9 @@ export const FloatingNav = ({
         }}
         className={`flex max-w-fit fixed top-10 inset-x-0 mx-auto border border-gray-600/50 rounded-full bg-gray-900/90 backdrop-blur-lg shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-[5000] px-8 py-2 items-center justify-center space-x-4 ${className}`}
       >
-        {filteredNavItems.map((navItem: NavItem, idx: number) => (
+        {filteredNavItems.map((navItem: NavItem) => (
           <Link
-            key={`link-${idx}`}
+            key={`${navItem.name}-${navItem.link}`}
             href={navItem.link}
             className="relative text-gray-300 items-center flex space-x-1 hover:text-white transition-colors duration-200"
           >
@@ -69,6 +73,10 @@ export const FloatingNav = ({
           </Link>
         ))}
         
+        {/* Web3 Wallet Connection */}
+        <ConnectWalletButton className="border-gray-600/50 text-gray-300 hover:text-white hover:bg-gray-700/50 hover:border-gray-500" />
+
+        {/* Authentication Button */}
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -84,7 +92,7 @@ export const FloatingNav = ({
                 ? user?.role === 'consumer' 
                   ? `${user.walletAddress?.slice(0, 6)}...${user.walletAddress?.slice(-4)}`
                   : `${user?.name || user?.id}` 
-                : "Login"
+                : "Connect & Login"
               }
             </span>
             <div className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-scooter-400 to-transparent h-px" />
