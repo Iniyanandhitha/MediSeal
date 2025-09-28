@@ -79,11 +79,28 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   const handleWalletConnect = async () => {
     setError('');
-    const success = await connectWallet();
-    if (success) {
-      setCurrentStep(2);
-    } else {
-      setError('Failed to connect wallet. Please try again.');
+    console.log('Attempting to connect wallet...');
+    
+    // Check if MetaMask is available
+    if (typeof window.ethereum === 'undefined') {
+      setError('MetaMask is not installed. Please install MetaMask to continue.');
+      return;
+    }
+    
+    try {
+      console.log('Requesting MetaMask popup for user approval...');
+      const success = await connectWallet();
+      console.log('Wallet connection result:', success);
+      
+      if (success) {
+        console.log('Wallet connected successfully, proceeding to role selection');
+        setCurrentStep(2);
+      } else {
+        setError('Failed to connect wallet. Please approve the connection in MetaMask and try again.');
+      }
+    } catch (error) {
+      console.error('Wallet connection error:', error);
+      setError('Connection cancelled or failed. Please approve the MetaMask connection to continue.');
     }
   };
 
@@ -166,7 +183,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 <Wallet className="h-16 w-16 text-blue-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Connect Your Wallet</h3>
                 <p className="text-gray-400 mb-6">
-                  First, connect your MetaMask wallet to authenticate
+                  Click below to open MetaMask and approve the connection request
                 </p>
                 
                 {walletConnected ? (
@@ -185,7 +202,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   {isLoading ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Connecting...
+                      Waiting for MetaMask approval...
                     </>
                   ) : walletConnected ? (
                     <>
@@ -195,7 +212,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                   ) : (
                     <>
                       <Wallet className="h-4 w-4 mr-2" />
-                      Connect MetaMask Wallet
+                      Open MetaMask & Approve Connection
                     </>
                   )}
                 </Button>

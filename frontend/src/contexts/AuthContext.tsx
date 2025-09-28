@@ -47,7 +47,7 @@ export interface LoginCredentials {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock data for different user types - In production, this would come from your backend
+// Mock data for different user types - Updated with your master wallet addresses
 const mockUsers = {
   manufacturer: {
     'MFR-001': {
@@ -57,7 +57,7 @@ const mockUsers = {
       email: 'contact@pharmacorp.com',
       organizationId: 'MFR-001',
       licenseNumber: 'MFG-LIC-2025-001',
-      walletAddress: '0x742d35Cc6634C0532925a3b8D8b8FbD7341d1234',
+      walletAddress: '0x35b149a0ebB942A81830F3E126357bC10378E849',
       isVerified: true,
     },
     'MFR-002': {
@@ -67,7 +67,7 @@ const mockUsers = {
       email: 'info@biotech.com',
       organizationId: 'MFR-002',
       licenseNumber: 'MFG-LIC-2025-002',
-      walletAddress: '0x8E5a2e2b4C8D0F6A2B3C1d2E3F4a5B6C7d8e9f01',
+      walletAddress: '0x2962B9266a48E8F83c583caD27Be093f231781b8',
       isVerified: true,
     }
   },
@@ -79,7 +79,7 @@ const mockUsers = {
       email: 'ops@medisupply.com',
       organizationId: 'DIST-001',
       licenseNumber: 'DIST-LIC-2025-001',
-      walletAddress: '0x1A2b3C4d5E6F7a8B9c0D1e2F3a4B5c6D7e8F9011',
+      walletAddress: '0x5387ffAB40F66172b7eEbCEDDC0F1f3bc7536092',
       isVerified: true,
     },
     'DIST-002': {
@@ -89,7 +89,7 @@ const mockUsers = {
       email: 'contact@globallogistics.com',
       organizationId: 'DIST-002',
       licenseNumber: 'DIST-LIC-2025-002',
-      walletAddress: '0x9F8e7D6c5B4a394847362518A7b6C5d4E3f2e101',
+      walletAddress: '0x35b149a0ebB942A81830F3E126357bC10378E849',
       isVerified: true,
     }
   },
@@ -101,7 +101,7 @@ const mockUsers = {
       email: 'quality@pharmatest.com',
       organizationId: 'LAB-001',
       licenseNumber: 'LAB-LIC-2025-001',
-      walletAddress: '0x2B3c4D5e6F7a8B9c0D1e2F3a4B5c6D7e8F901234',
+      walletAddress: '0x2962B9266a48E8F83c583caD27Be093f231781b8',
       isVerified: true,
     },
     'LAB-002': {
@@ -111,7 +111,7 @@ const mockUsers = {
       email: 'testing@qacenter.com',
       organizationId: 'LAB-002',
       licenseNumber: 'LAB-LIC-2025-002',
-      walletAddress: '0x3C4d5E6f7A8b9C0d1E2f3A4b5C6d7E8f90123456',
+      walletAddress: '0x5387ffAB40F66172b7eEbCEDDC0F1f3bc7536092',
       isVerified: true,
     }
   },
@@ -123,7 +123,7 @@ const mockUsers = {
       email: 'pharmacist@healthcare.com',
       organizationId: 'PHARM-001',
       licenseNumber: 'PHARM-LIC-2025-001',
-      walletAddress: '0x4D5e6F7a8B9c0D1e2F3a4B5c6D7e8F9012345678',
+      walletAddress: '0x35b149a0ebB942A81830F3E126357bC10378E849',
       isVerified: true,
     },
     'PHARM-002': {
@@ -133,7 +133,7 @@ const mockUsers = {
       email: 'info@citymedical.com',
       organizationId: 'PHARM-002',
       licenseNumber: 'PHARM-LIC-2025-002',
-      walletAddress: '0x5E6f7A8b9C0d1E2f3A4b5C6d7E8f901234567890',
+      walletAddress: '0x2962B9266a48E8F83c583caD27Be093f231781b8',
       isVerified: true,
     }
   }
@@ -152,14 +152,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     // Check for stored authentication on mount
     const storedUser = localStorage.getItem('mediseal_user');
-    const storedAddress = localStorage.getItem('mediseal_wallet');
     
+    // Always clear wallet connection to force fresh MetaMask approval
+    localStorage.removeItem('mediseal_wallet');
+    setConnectedAddress(null);
+    
+    // Restore user session if exists (but they'll need to reconnect wallet)
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const user = JSON.parse(storedUser);
+        setUser(user);
+        console.log('User session restored:', user.name, user.role);
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        localStorage.removeItem('mediseal_user');
+      }
     }
-    if (storedAddress) {
-      setConnectedAddress(storedAddress);
-    }
+    
+    console.log('App initialized - wallet cleared, user session preserved');
     setIsLoading(false);
   }, []);
 
@@ -195,17 +205,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (roleUsers && credentials.identifier in roleUsers) {
         const foundUser = roleUsers[credentials.identifier as keyof typeof roleUsers];
         
-        // Master wallets can login as any stakeholder without wallet address validation
+        // Master wallets can login as any stakeholder - treat as regular role-based user for navigation
         if (isMasterWallet(connectedAddress)) {
           const userWithWallet = foundUser as User;
-          // Create a copy with master wallet address and master flag
-          const masterUser: User = {
+          // Create user WITHOUT master flag for role-based navigation filtering
+          const roleUser: User = {
             ...userWithWallet,
             walletAddress: connectedAddress, // Use master wallet address
-            isMaster: true, // Mark as master for backend access
+            isMaster: false, // Don't set master flag to enable role-based filtering
           };
-          setUser(masterUser);
-          localStorage.setItem('mediseal_user', JSON.stringify(masterUser));
+          setUser(roleUser);
+          localStorage.setItem('mediseal_user', JSON.stringify(roleUser));
           return true;
         }
         
@@ -240,9 +250,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const connectWallet = async (): Promise<boolean> => {
     try {
       if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
+        // Clear any existing connection state to force fresh connection
+        setConnectedAddress(null);
+        localStorage.removeItem('mediseal_wallet');
+        
+        // Force MetaMask popup by requesting accounts with user interaction
+        console.log('Requesting MetaMask connection...');
+        const accounts = await window.ethereum.request({ 
+          method: 'eth_requestAccounts'
+        }) as string[];
+        
         if (accounts && accounts.length > 0) {
           const walletAddress = accounts[0];
+          console.log('Wallet connected:', walletAddress);
+          
+          // Request permission to connect (this ensures user approval)
+          const permissions = await window.ethereum.request({
+            method: 'wallet_requestPermissions',
+            params: [{ eth_accounts: {} }]
+          });
+          
+          console.log('Permissions granted:', permissions);
+          
           setConnectedAddress(walletAddress);
           localStorage.setItem('mediseal_wallet', walletAddress);
           
@@ -262,10 +291,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           
           return true;
         }
+      } else {
+        console.error('MetaMask not found');
       }
       return false;
     } catch (error) {
       console.error('Wallet connection error:', error);
+      // User rejected the request or closed the popup
+      if (error && typeof error === 'object' && 'code' in error) {
+        const walletError = error as { code: number };
+        if (walletError.code === 4001) {
+          console.log('User rejected the connection request');
+        }
+      }
       return false;
     }
   };
@@ -292,17 +330,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const canAccessPage = (page: string): boolean => {
     // Master wallets have access to everything
-    if (user?.isMaster || isMasterWallet(connectedAddress)) {
+    if (user?.isMaster) {
       return true;
     }
     
-    // Verify page only needs wallet connection
+    // Verify page is always accessible
     if (page === 'verify') {
-      return !!connectedAddress;
+      return true;
     }
     
-    // All other pages need full authentication (wallet + stakeholder login)
-    if (!user || !connectedAddress) return false;
+    // All other pages need user authentication
+    if (!user) {
+      return false;
+    }
     
     switch (page) {
       case 'mint':
@@ -316,9 +356,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       case 'pharmacy':
         return user.role === 'pharmacy';
       case 'analytics':
-        return user.role !== 'consumer'; // All stakeholders can view analytics
+        return user.role !== 'consumer';
       case 'dashboard':
-        return user.role !== 'consumer'; // Consumers don't need dashboard
+        return user.role !== 'consumer';
       default:
         return false;
     }
