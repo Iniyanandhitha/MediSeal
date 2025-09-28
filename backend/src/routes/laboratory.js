@@ -11,8 +11,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load ABI from the compiled contract
-const contractPath = path.join(__dirname, '../../../blockchain/artifacts/contracts/PharmaChainOptimized.sol/PharmaChainOptimized.json');
-const PharmaChainABI = JSON.parse(fs.readFileSync(contractPath, 'utf8')).abi;
+const contractPath = path.join(__dirname, '../../../blockchain/artifacts/contracts/MediSeal.sol/MediSeal.json');
+const MediSealABI = JSON.parse(fs.readFileSync(contractPath, 'utf8')).abi;
 
 const router = express.Router();
 
@@ -109,7 +109,7 @@ router.post('/submit-test', authenticate, async (req, res) => {
     // Initialize blockchain connection
     const provider = new ethers.JsonRpcProvider(config.blockchain.rpcUrl);
     const wallet = new ethers.Wallet(config.blockchain.privateKey, provider);
-    const contract = new ethers.Contract(config.blockchain.contractAddress, PharmaChainABI, wallet);
+    const contract = new ethers.Contract(config.blockchain.contractAddress, MediSealABI, wallet);
 
     logger.info(`Submitting test result for batch ${tokenId}`, {
       tokenId,
@@ -248,7 +248,7 @@ router.get('/test-results/:tokenId', authenticate, async (req, res) => {
 
     // Initialize blockchain connection
     const provider = new ethers.JsonRpcProvider(config.blockchain.rpcUrl);
-    const contract = new ethers.Contract(config.blockchain.contractAddress, PharmaChainABI, provider);
+    const contract = new ethers.Contract(config.blockchain.contractAddress, MediSealABI, provider);
 
     logger.info(`Retrieving test results for batch ${tokenId}`);
 

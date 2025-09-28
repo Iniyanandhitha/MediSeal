@@ -37,7 +37,7 @@ class BlockchainService {
       // Load contract ABI from compiled artifacts
       let contractABI
       try {
-        const artifactPath = path.resolve(__dirname, '../../../blockchain/artifacts/contracts/PharmaChain.sol/PharmaChain.json')
+        const artifactPath = path.resolve(__dirname, '../../../blockchain/artifacts/contracts/MediSeal.sol/MediSeal.json')
         const artifact = JSON.parse(fs.readFileSync(artifactPath, 'utf8'))
         contractABI = artifact.abi
         logger.info('Loaded contract ABI from artifacts')
